@@ -38,7 +38,7 @@
             })
         },
         {
-            title:"类型", key:"template", width: 90, render:row=> h(Template, {bean: findTemplate(row.template)})
+            title:"类型", key:"template", width: 100, render:row=> h(Template, {bean: findTemplate(row.template)})
         },
         {
             title:"可访问", key:"active", width:70,
@@ -71,7 +71,7 @@
             )
         },
         { title:"热度", key:"launch", width: 60, render:row=> h(Count, {value: row.launch}) },
-        { title:"更新日期", key:"addOn", width: 180, render: row=> H.date.datetime(row.addOn) },
+        { title:"更新日期", key:"addOn", width: 170, render: row=> H.date.datetime(row.addOn) },
         {
             width:200, align,
             title: ()=> h(NSpace, {justify:"center"}, ()=>[

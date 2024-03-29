@@ -26,6 +26,12 @@
             <n-tag :bordered="false" type="info">{{bean.page.name||('#'+pid)}}</n-tag>
             的使用权限，请联系应用管理员授权后再重试。
         </n-alert>
+        <n-alert v-if="state==5" title="渲染器缺失" type="error">
+            您尝试访问的应用
+            <n-tag :bordered="false" type="info">{{aid}}</n-tag> /
+            <n-tag :bordered="false" type="info">{{bean.page.name||('#'+pid)}}</n-tag>
+            未定义对应的渲染器⌈{{bean.page.template}}⌋，请联系管理员。
+        </n-alert>
 
         <About class="mt-4" />
     </template>
@@ -40,8 +46,6 @@
         params: {type:Object, default:()=>{}},      //页面参数传递
     })
 
-    let { aid, pid } = props
-
     import DocumentRender from "./文档页/Render.vue"
     import FormRender from './表单页/Render.vue'
     import TableDataRender from "./数据表格/Render.vue"
@@ -50,6 +54,7 @@
     import BlockRender from "./数据维护/Render.vue"
     import ChartRender from "./统计图表/Render.vue"
     import SFCRender from "./SFC/Render.vue"
+    import SFC2Render from "./SFC2/Render.vue"
     import H5Render from "./小程序/Render.vue"
 
     import DefaultHome from "./Home.vue"
@@ -79,68 +84,81 @@
             tpl=='import'?      BlockRender:
             tpl=='chart'?       ChartRender:
             tpl=='sfc'?         SFCRender:
+            tpl=='sfc2'?        SFC2Render:
             tpl=='h5'?          H5Render:
             null
-        if(com == null) throw Error(`应用⌈${bean.page.name}⌋未定义对应的渲染器，请联系管理员`)
-        return h(com, {data, aid, page: bean.page, params: props.params})
+        if(com == null) {
+            state.value = 5
+            return null
+            // throw Error(`应用⌈${bean.page.name}⌋未定义对应的渲染器，请联系管理员`)
+        }
+        return h(com, {data, aid:props.aid, page: bean.page, params: props.params})
     }
 
     const defaultHome = ()=> h(DefaultHome, {app: bean.app})
 
-    const refresh = ()=>RESULT("/page/main", {pid, aid},  d=>{
-        let { page, app } = d.data
-        if(!app || !app.id || (!!pid && !page)) return state.value = 2
-        console.debug("页面更新", aid, pid, props.params)
+    const refresh = ()=>{
+        state.value = -1
 
-        bean.app    = app
+        RESULT("/page/main", {pid:props.pid, aid:props.aid},  d=>{
+            let { page, app } = d.data
+            let pid = props.pid
 
-        //没有默认页面时，显示自带的应用首页
-        if(!page){
-            console.debug(`检测到应用未配置主页面，即将使用默认主页...`)
-            H.setTitle(app.name)
-            return state.value = 0
-        }
+            if(!app || !app.id || (!!pid && !page))
+                return state.value = 2
 
-        let {id, name, template, active} = page
+            console.debug("页面更新", props.aid, props.pid, props.params)
 
-        bean.page   = page
-        if(active != true)  return state.value = 3
+            bean.app    = app
 
-        if(!pid || pid == '0')  pid = id
+            //没有默认页面时，显示自带的应用首页
+            if(!page){
+                console.debug(`检测到应用未配置主页面，即将使用默认主页...`)
+                H.setTitle(app.name)
+                return state.value = 0
+            }
 
-        H.setTitle(name)
+            let {id, name, template, active} = page
 
-        loadContent(pid)
-            .then(dd=>{
-                if(dd.success != true){
-                    return state.value = 4
-                }
+            bean.page   = page
+            if(active != true)  return state.value = 3
 
-                //运行小程序
-                if(template === 'h5'){
-                    // return FETCH_JSON(window.SERVER+"/app/launch", {aid, pid, channel}, true).then(()=> location.href = dd.data)
-                    showMenu = false
-                    // 不需要内边距
-                    E.emit("main.padding", 0)
+            if(!pid || pid == '0')  pid = id
 
-                    document.querySelector("body .n-layout-footer").remove()
-                    setTimeout(() => {
-                        document.querySelector(".win-layout").style.bottom='0px'
-                    }, 100)
-                }
+            H.setTitle(name)
 
-                data = dd.data
+            loadContent(pid)
+                .then(dd=>{
+                    if(dd.success != true){
+                        return state.value = 4
+                    }
 
-                state.value = 1
+                    //运行小程序
+                    if(template === 'h5'){
+                        showMenu = false
+                        // 不需要内边距
+                        E.emit("main.padding", 0)
 
-                //初始化 DATA 模块，对于 table 类型，无需注入 pid（可以自由查询数据）
-                !H.data.inited() && H.data.init({aid, pid: isUnLimitPageId(template)?"": pid, prefix: window.SERVER, debug: process.env.NODE_ENV !== "production"})
+                        document.querySelector("body .n-layout-footer").remove()
+                        setTimeout(() => {
+                            document.querySelector(".win-layout").style.bottom='0px'
+                        }, 100)
+                    }
 
-                setTimeout(()=> FETCH_JSON(window.SERVER+"/app/launch", {aid, pid, channel}, true), 5000)
-            })
-            .catch(e=> state.value = 4)
-        }
-    )
+                    data = dd.data
+
+                    state.value = 1
+
+                    //初始化 DATA 模块，对于 table 类型，无需注入 pid（可以自由查询数据）
+                    !H.data.inited() && H.data.init({aid: props.aid, pid: isUnLimitPageId(template)?"": pid, prefix: window.SERVER, debug: process.env.NODE_ENV !== "production"})
+
+                    setTimeout(()=> FETCH_JSON(window.SERVER+"/app/launch", {aid:props.aid, pid, channel}, true), 5000)
+                })
+                .catch(e=> state.value = 4)
+            }
+        )
+    }
+
 
     onMounted( refresh )
 

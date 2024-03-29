@@ -40,13 +40,16 @@
 
     let onSelect = (template, opt) => {
         let tpl = findTemplate(template)
-        let bean = typeof(tpl.onCreate)==='function'? tpl.onCreate(pros.aid) : {name: `新建${opt.label}`}
-        bean.aid = pros.aid
-        bean.template = template
+        let onCreate = typeof(tpl.onCreate)==='function'? tpl.onCreate : ()=> ({name: `新建${opt.label}`})
 
-        RESULT("/page/create", bean, d=>{
-            M.ok(`新建${opt.label}`)
-            emits("add")
+        Promise.resolve(onCreate(pros.aid, tpl)).then(bean=>{
+            bean.aid = pros.aid
+            bean.template = template
+
+            RESULT("/page/create", bean, d=>{
+                M.ok(`新建${opt.label}`)
+                emits("add")
+            })
         })
     }
 </script>

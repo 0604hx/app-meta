@@ -1,5 +1,5 @@
 <template>
-    <SFCRender ref="sfc" :code="data" :done="onLoad" />
+    <component ref="sfc" :is="getRender(bean.ui)" :code="bean.code" :done="onLoad" />
 
     <DocumentList v-if="ok" class="mt-4" :pid="page.id" />
 </template>
@@ -10,10 +10,12 @@
     import DocumentList from "../document-list.vue"
 
     import { renderProps, loadContent } from "../"
-    import SFCRender from "./sfc-render.vue"
+    import { translator, getRender } from "."
 
+    E.emit("main.padding", 0)
     const props = defineProps(renderProps)
 
+    let bean = translator(props.data)
     let ok = ref(false)
 
     const onLoad = ()=> ok.value = true

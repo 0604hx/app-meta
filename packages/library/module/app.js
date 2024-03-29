@@ -3,6 +3,15 @@ import { get } from "./db"
 import { compress } from "./io"
 
 
+const buildUrl = (aid, pid, params, pure=false)=>{
+    let url = `${location.origin}${location.pathname}#/app${pure?'-pure':''}/${aid}`
+    if(pid)
+        url += `/${pid}`
+    if(params)
+        url += `?params=${encodeURIComponent(compress(params))}`
+    return url
+}
+
 /**
  * 准备打开该页面的窗口信息
  * @param {String} aid
@@ -12,11 +21,7 @@ import { compress } from "./io"
  * @returns
  */
 export const prepare = (aid, pid, params, pure=false)=> new Promise((ok)=>{
-    let url = `${location.origin}${location.pathname}#/app${pure?'-pure':''}/${aid}`
-    if(pid)
-        url += `/${pid}`
-    if(params)
-        url += `?params=${encodeURIComponent(compress(params))}`
+    const url = buildUrl(aid, pid, params, pure)
 
     let option = {}
     get('window', `${window.User.id}-${aid}-${pid||""}`).then(v=>{
@@ -60,25 +65,16 @@ export const runPage=(aid, pid, blank=false, params)=>{
         //此处读取本地的窗口大小
         openAppOrPage(aid, pid, {}, params)
     }
-    else
-        location.href = url
-}
-
-
-const _runApp = ({app, property })=>{
-    if(property.native === true && !window.META){
-        throw Error(`应用「${app.name}」需要在<原生环境>下执行，请在桌面客户端启动`)
-        // return M.dialog({
-        //     type:"error",
-        //     title:"应用启动失败",
-        //     content: UI.html(`应用「${app.name}」需要在 <b class="primary">原生环境</b> 下执行，请在桌面客户端启动`)
-        // })
+    else{
+        if(typeof(window.metaChangePage) === 'function'){
+            window.metaChangePage(aid, pid)
+        }
+        else{
+            location.href = buildUrl(aid, pid, params)
+            //自动刷新
+            setTimeout(()=> location.reload(), 200)
+        }
     }
-    let width = property.winMax ? window.screen.availWidth : property.winWidth
-    let height = property.winMax ? window.screen.availHeight : property.winHeight
-
-    openUrl(`#/app/${app.id}`, { title:app.name, width, height, center: !property.winMax })
-    // M.ok(`应用「${app.name}」已启动`)
 }
 
 /**

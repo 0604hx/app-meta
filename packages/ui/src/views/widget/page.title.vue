@@ -17,6 +17,9 @@
 
     const item = computed(()=>{
         let tmp = new RegExp(/^`(.*)`(.*)/).exec(props.text)
+        if(!tmp)
+            tmp = new RegExp(/^(.*)\|(.*)/).exec(props.text)
+
         let special = !!tmp
         return special ? { special, tag:tmp[1], name:tmp[2] } : {special}
     })

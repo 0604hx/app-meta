@@ -1,10 +1,22 @@
-import { ref, onMounted,onUnmounted } from 'vue'
+import { ref, onMounted,onUnmounted, h } from 'vue'
 import { useRoute } from 'vue-router'
 import { Table, ChartPie, Wpforms, Html5, ListAltRegular, Database, Tools, ExclamationTriangle, Server, Robot, FileWordRegular as DOC, Vuejs, Code } from "@vicons/fa"
+
+import ChooseSFCUI from './SFC/choose-sfc-ui.vue'
 
 const INPUT     = "primary"
 const OUTPUT    = "info"
 const MIX       = "warning"
+
+/**
+ * @typedef {Object} TemplateItem
+ * @property {String} id - 模板编号
+ * @property {String} text - 模板中文名称
+ * @property {String} theme - 类型
+ * @property {Object} icon - 图标
+ * @property {String} summary - 描述信息
+ * @property {Function} onCreate - 新建模板的处理函数（用于自定义页面对象）
+ */
 
 export const templateGroups = { primary:"数据采集", info:"展示页面", warning:"综合功能" }
 
@@ -17,6 +29,7 @@ export const isUnLimitPageId  = pageType=> [ "import", "table", "chart" ].includ
 
 /**
  * theme 为 primary 表示数据录入为主、info 为展示
+ * @type {Array<TemplateItem>}
  */
 export const templates = [
     { id:"form", text:"表单页", theme: INPUT, icon: Wpforms, summary:"数据填报页面，支持可视化编辑"},
@@ -28,7 +41,27 @@ export const templates = [
     { id:"chart",text:"统计图表", theme: OUTPUT, icon:ChartPie, summary:"用于制作台账、统计图等数据可视化页面"},
     { id:"robot",text:"RPA机器人", theme: MIX, icon: Robot, summary:"基于 WEB 的 RPA 机器人（主要用于数据采集，需要目标网站支持 Chrome 浏览器），需要在客户端环境下运行"},
     //SFC add on 2023-06-02
-    { id:"sfc",text:"单文件组件", theme: MIX, icon: Vuejs, summary:"自定义Vue3页面（template+script+style），能够使用全局组件及接口"},
+    {
+        id:"sfc",text:"单文件组件", theme: MIX, icon: Vuejs, summary:"自定义Vue3页面（template+script+style），支持多款 UI 框架，能够使用全局组件及接口",
+        /**
+         * @param {String} aid
+         * @param {TemplateItem} tpl
+         */
+        onCreate: (aid, tpl)=> new Promise((ok, fail)=>{
+            const dialog = M.dialog({
+                maskClosable: false, showIcon: false, style:{width:'720px'},
+                title: `请选择 SFC 的 UI（用户界面） 框架`,
+                content: ()=>h(ChooseSFCUI, {onSelect: item=>{
+                    dialog.destroy()
+                    ok({name:`${item.ui}|新建${tpl.text}`, content: JSON.stringify(item)})
+                }})
+            })
+        })
+    },
+    // {
+    //     id:"sfc2",text:"单文件组件2.0", theme: MIX, icon: Vuejs, summary:"自定义Vue3单文件组件（基于 Vant4 渲染，兼容 PC 及移动端），能够使用全局组件及接口",
+    //     onCreate:aid=>({name:`单文件组件2.0（双端适配）`})
+    // },
     { id:"h5",text:"H5小程序", theme: MIX, icon: Html5, summary:"自由灵活的 HTML5 页面（适用于具备开发能力的技术人员）"},
     {
         id:"faas", text:"FaaS函数", theme: MIX, icon:Code, onCreate:aid=>({name:"新建FaaS函数", search: false}),

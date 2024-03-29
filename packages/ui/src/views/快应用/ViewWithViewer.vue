@@ -3,12 +3,13 @@
 </template>
 
 <script setup>
-    import { ref, watch,onMounted, h, reactive, nextTick } from 'vue'
-    import { useRoute } from 'vue-router'
+    import { ref, watch,onMounted, h, reactive, nextTick, onUnmounted } from 'vue'
+    import { useRoute, useRouter } from 'vue-router'
 
     import Viewer from "./viewer.vue"
 
     const route = useRoute()
+    const router = useRouter()
 
     const parseParams = p => p? JSON.parse(H.io.unCompress(decodeURIComponent(p))) : {}
 
@@ -36,4 +37,12 @@
             }
         }
     })
+
+    onMounted(() => {
+        window.metaChangePage = (aid, pid)=>{
+            router.replace({name:"app-view", params:{aid, pid}})
+        }
+    })
+
+    onUnmounted(() => delete window.metaChangePage)
 </script>
