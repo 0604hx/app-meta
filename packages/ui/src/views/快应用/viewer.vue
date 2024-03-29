@@ -54,7 +54,6 @@
     import BlockRender from "./数据维护/Render.vue"
     import ChartRender from "./统计图表/Render.vue"
     import SFCRender from "./SFC/Render.vue"
-    import SFC2Render from "./SFC2/Render.vue"
     import H5Render from "./小程序/Render.vue"
 
     import DefaultHome from "./Home.vue"
@@ -84,7 +83,6 @@
             tpl=='import'?      BlockRender:
             tpl=='chart'?       ChartRender:
             tpl=='sfc'?         SFCRender:
-            tpl=='sfc2'?        SFC2Render:
             tpl=='h5'?          H5Render:
             null
         if(com == null) {

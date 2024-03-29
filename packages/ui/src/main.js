@@ -99,7 +99,6 @@ let router = BuildRouter(
                     { path: '/app/:aid/chart/:id', name: 'app-page-chart', meta:{title:"统计图表维护·应用页面"  }, component: () => import('@V/快应用/统计图表/Editor.vue') },
                     { path: '/app/:aid/robot/:id', name: 'app-page-robot', meta:{title:"网页机器人·应用页面"  }, component: () => import('@V/快应用/网页机器人/Editor.vue') },
                     { path: '/app/:aid/sfc/:id', name: 'app-page-sfc', meta:{title:"SFC维护·应用页面"  }, component: () => import('@V/快应用/SFC/Editor.vue') },
-                    { path: '/app/:aid/sfc2/:id', name: 'app-page-sfc2', meta:{title:"SFC维护·应用页面"  }, component: () => import('@V/快应用/SFC2/Editor.vue') },
                     { path: '/app/:aid/h5/:id', name: 'app-page-h5', meta:{title:"小程序维护·应用页面"  }, component: () => import('@V/快应用/小程序/Editor.vue') },
                     { path: '/app/:aid/faas/:id', name: 'app-page-faas', meta:{title:"FaaS函数维护·应用页面"  }, component: () => import('@V/快应用/FAAS/Editor.vue') },
                     { path: '/app/:aid/server/:id', name: 'app-page-server', meta:{title:"后端服务维护·应用页面"  }, component: () => import('@V/快应用/后端服务/Index.vue') },
