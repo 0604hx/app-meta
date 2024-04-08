@@ -1,8 +1,7 @@
 <template>
-    <var-loading :loading="state==0" description="组件渲染中..." type="rect">
-        <div v-if="state==1" id="varletSFC"></div>
-        <var-result v-else-if="state==-1" type="error" title="渲染 SFC 失败" description="error" />
-    </var-loading>
+    <var-loading v-if="state==0" description="组件渲染中..." type="rect"></var-loading>
+    <div v-else-if="state==1" id="varletSFC" style="height: 100%;min-height: 100%;"></div>
+    <var-result v-else-if="state==-1" type="error" title="渲染 SFC 失败" description="error" />
 </template>
 
 <script setup>

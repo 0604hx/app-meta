@@ -112,10 +112,40 @@ const COLORS = {"INFO":"#2080f0", "DEBUG":"#8c0776", "ERROR":"#d03050"}
  * @param  {...any} ps
  * @returns
  */
-const log = (level, ...ps)=> console.debug(`%c${dayjs(new Date).format("HH:mm:ss")} ${level}`, `color:${COLORS[level]};font-weight:500;`, ...ps)
+const log = (level, group, ...ps)=> console.debug(
+    `%c${dayjs(new Date).format("HH:mm:ss")} ${level}${group?` %c${group}`:"%c"}`,
+    `color:${COLORS[level]};font-weight:500;`,
+    "background:#8c0776;padding:0 2px 0px 2px;color:white",
+    ...ps
+)
+
+class LogFactory {
+    /**@type {String} */
+    prefix
+
+    constructor(groupName){
+        this.prefix = groupName
+    }
+
+    info (...ps){
+        log("INFO", this.prefix, ...ps)
+    }
+    debug (...ps){
+        log("DEBUG", this.prefix, ...ps)
+    }
+    error (...ps){
+        log("ERROR", this.prefix, ...ps)
+    }
+}
+
+const defaultLogger = new LogFactory()
 
 export const logger = {
-    info    : (...ps)=> log("INFO", ...ps),
-    debug   : (...ps)=> log("DEBUG", ...ps),
-    error   : (...ps)=> log("ERROR", ...ps)
+    new     : group=> {
+        if(!group)  throw `Log 分组名称不能为空`
+        return new LogFactory(group)
+    },
+    info    : defaultLogger.info,
+    debug   : defaultLogger.debug,
+    error   : defaultLogger.error
 }

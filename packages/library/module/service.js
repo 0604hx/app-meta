@@ -1,9 +1,10 @@
 import { withPost, withGet } from "../common"
 import { saveToFile, unCompress } from "./io"
-import { getObj } from "./store"
 
+let header = undefined
 let enableMapping = undefined
-let mapping = {}
+let mappingIds = new Set()      //需要映射的应用ID
+let mapping = []
 
 /**
  * 构建对应后端的服务地址
@@ -16,9 +17,10 @@ let mapping = {}
  *
  * @param {String} aid - 应用ID
  * @param {String} path - 请使用 / 开头的路由地址
+ * @param {Object} extraHeaders
  * @returns
  */
-const buildServiceUrl = (aid, path)=> {
+const buildServiceUrl = (aid, path, extraHeaders)=> {
     if(!aid && typeof(path)==='number'){
         // 当 aid 为空，path 为数值，则视为调用 FaaS 函数
         return `service/_f_a_a_s_/${path}`
@@ -26,19 +28,41 @@ const buildServiceUrl = (aid, path)=> {
     if(enableMapping == undefined){
         let m = localStorage.getItem('dev.service')
         if(m){
-            mapping = JSON.parse(unCompress(m))
+            /**@type {Array} */
+            let items = JSON.parse(unCompress(m))
+            if(Array.isArray(items)){
+                if(window.User)
+                    header = `${User.id}-${encodeURIComponent(User.name)}-${User.ip}-${User.roles? User.roles.join(","):""}`
+
+                mapping = items.filter(v=>v.active)
+                mapping.forEach(v=> {
+                    if(!!v.filter)
+                        v.filter = v.filter.split(",").map(v=>v.trim())
+                    mappingIds.add(v.aid)
+                })
+            }
         }
+
         enableMapping = true
     }
-    console.debug(enableMapping, mapping, path)
-    if(!!mapping[aid]){
-        return `${mapping[aid]}${path}`
+
+    //判断映射地址
+    if(!!mappingIds.has(aid)){
+        let m = mapping.find(v=>v.aid == aid && (!v.filter || v.filter.indexOf(path)>=0))
+        if(!!m){
+            console.debug("[服务映射]", path, ">", m.target)
+            if(extraHeaders){
+                //添加请求头
+                extraHeaders['ua'] = header
+            }
+            return `${m.target}${path}`
+        }
     }
 
     return `service/${aid}/${path.startsWith("/")?path.substring(1):path}`
 }
 
-export const get = (aid, path, extraHeaders={}, responseHandler) => withGet(buildServiceUrl(aid, path), extraHeaders, responseHandler)
+export const get = (aid, path, extraHeaders={}, responseHandler) => withGet(buildServiceUrl(aid, path, extraHeaders), extraHeaders, responseHandler)
 
 /**
  * 调用后端服务（必须返回 JSON 格式的对象或者字符串）
@@ -51,7 +75,7 @@ export const get = (aid, path, extraHeaders={}, responseHandler) => withGet(buil
  * @param {Function} responseHandler    fetch 方法的响应处理，默认是转换为 JSON 格式
  *                                          如果后端返回文件流，则可以参考 _exportData 进行 blob 处理
  */
-export const json = (aid, path, data, useJson=true, extraHeaders={}, responseHandler)=> withPost(buildServiceUrl(aid, path), data, useJson, extraHeaders, responseHandler)
+export const json = (aid, path, data, useJson=true, extraHeaders={}, responseHandler)=> withPost(buildServiceUrl(aid, path, extraHeaders), data, useJson, extraHeaders, responseHandler)
 
 /**
  * 处理纯文本的远程返回内容

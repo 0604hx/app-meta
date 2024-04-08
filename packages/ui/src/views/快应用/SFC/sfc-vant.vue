@@ -1,7 +1,7 @@
 <template>
     <van-loading v-if="state==0" size="24px" vertical>组件渲染中...</van-loading>
     <!-- <component v-else-if="state==1" :is='com'></component> -->
-    <ConfigProvider v-else-if="state==1" :theme :style="{padding:'6px 0px 10px 0px',backgroundColor: theme=='dark'?'black':'#f9f9f9', color:theme=='dark'?'#f5f5f5':'#2c3e50'}" id="vantSFC"></ConfigProvider>
+    <ConfigProvider v-else-if="state==1" :theme :style="{height:'100%', minHeight:'100%',backgroundColor: theme=='dark'?'black':'#f9f9f9', color:theme=='dark'?'#f5f5f5':'#2c3e50'}" id="vantSFC"></ConfigProvider>
     <van-empty v-else-if="state==-1" image="error" :description="error" />
 </template>
 

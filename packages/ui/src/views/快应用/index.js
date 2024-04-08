@@ -101,13 +101,30 @@ export function pageManage(router){
     return { toView, toEdit }
 }
 
-export function pageEditor(defaultVal, translator, padding=true){
+/**
+ *
+ * @typedef {Object} EditorConfig
+ * @property {Boolean} padding - 是否使用编辑页面的 padding
+ * @property {Number} cacheDelay - 每次缓存的间隔，单位秒，默认 30
+ * @property {Number} cacheLimit - 缓存数量上限，默认 10
+ * @property {Function} cacheHandler - 读取缓存数据后的处理函数
+ *
+ * @param {*} defaultVal
+ * @param {Function} translator
+ * @param {EditorConfig} config - 配置项目
+ * @returns
+ */
+export function pageEditor(defaultVal, translator, config){
+    config = Object.assign({padding: true, cacheDelay:30, cacheLimit: 10}, config)
+
     let {id, aid}   = useRoute().params
     let bean        = ref(defaultVal)
     let loading     = ref(false)
     let inited      = ref(false)
 
     const PADDING   = "main.padding"
+    const log       = H.log.new(`EDITOR#${id}`)
+    let cacheTime   = 0
 
     let refresh = ()=> GET("/page/content", {id}, d=> {
         if(d.success===true){
@@ -128,20 +145,33 @@ export function pageEditor(defaultVal, translator, padding=true){
         d=> typeof(onOk) === 'function'? onOk(d) : M.notice.ok(`页面内容更新完成`),
         {loading}
     )
+
+    const saveCache = data => {
+        const now = Date.now()
+        if(now - cacheTime <= config.cacheDelay * 1000)
+            return
+
+        cacheTime = now
+        E.emit('editor.cache', { data, limit: config.cacheLimit})
+        log.debug(`保存缓存数据（间隔限制为 ${config.cacheDelay} 秒，上限为 ${config.cacheLimit} 条）`)
+    }
+
     onMounted(()=>{
-        padding && E.emit(PADDING, 0)
+        config.padding && E.emit(PADDING, 0)
         refresh()
 
         if(!H.data.getAppId()){
             // 初始化 DATA 模块，此处不传递 pid 参数，需要在 CURD 时进行手动 pid 限定
             !H.data.inited() && H.data.init({aid, pid:"", prefix: window.SERVER, debug: process.env.NODE_ENV !== "production"})
         }
+
+        E.on(`editor.cache.read`, d=> config.cacheHandler && config.cacheHandler(d))
     })
     onUnmounted(()=>{
-        padding && E.emit(PADDING)
+        config.padding && E.emit(PADDING)
     })
 
-    return { id,aid, loading, bean, inited, refresh, updateContent }
+    return { id,aid, loading, bean, inited, refresh, updateContent, saveCache }
 }
 
 export const loadPages = (aid, loading)=> new Promise((ok)=> RESULT("/page/list", {form:{EQ_aid:aid}}, d=> ok(d.data), {loading}))
@@ -163,7 +193,7 @@ export const initCtrlAndS = (handler, keyName="s")=>{
 }
 
 /**
- *
+ * 修改页面的某个字段
  * @param {Object} row
  * @param {String} key
  * @param {*} value
@@ -175,3 +205,60 @@ export const modifyPage = (row, key, value, tip="操作成功")=> new Promise(ok
     row[key] = value
     ok()
 }))
+
+const T_CACHE = `cache`
+const buildCacheId = id=>`page.edit.${id}`
+
+/**
+ * 保存某个页面的缓存（本地）
+ * @param {String} id
+ * @param {*} data
+ * @param {Number} limit
+ */
+export const saveCache = (id, data, limit)=>{
+    const date = H.date.datetime()
+    const dbId = buildCacheId(id)
+
+    H.db.get(T_CACHE, dbId).then(v=>{
+        if(!v)  v = { id:dbId, data:[], date }
+        if(v.data.length >= limit)
+            v.data.pop()
+        v.data.unshift({ value: data, date, hash: H.secret.md5(data).substring(0,16) })
+
+        H.db.insert(T_CACHE, v)
+    })
+}
+
+/**
+ * 获取页面的缓存数据
+ * @param {String} id
+ * @returns {Promise}
+ */
+export const listCache = id=> new Promise(ok=> H.db.get(T_CACHE, buildCacheId(id)).then(v=> ok(v.data)))
+
+/**
+ * 删除指定缓存
+ * @param {String} id
+ * @param {Number} index - 缓存序号，如果为 -1 则全部删除
+ * @returns {Promise}
+ */
+export const deleteCache = (id, index=-1)=>new Promise(ok=>{
+    const dbId = buildCacheId(id)
+    H.db.get(T_CACHE, dbId).then(v=>{
+        if(!v || !Array.isArray(v.data))  return ok(0)
+
+        const { data } = v
+        if(data.length == 0)    return ok(0)
+
+        let delCount = 1
+        if(index == -1){
+            delCount = data.length
+            data.length = 0
+        }
+        else
+            data.splice(index, 1)
+
+        v.date = H.date.datetime()
+        H.db.insert(T_CACHE, v).then(v=> ok(delCount))
+    })
+})

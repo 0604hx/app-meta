@@ -1,5 +1,5 @@
 <template>
-    <div @dblclick="editing=true">
+    <div @dblclick="editing=true" @click="onClick">
         <template v-if="editing">
             <n-input v-model:value="data" ref="input" :size="size" @blur="editing=false" @keyup="onKeyup">
                 <template #suffix>
@@ -28,6 +28,7 @@
         text:{type:String},
         size:{type:String, default:"medium"},
         onUpdate:{type:Function},
+        onClick:{type:Function},
         special:{type:Boolean, default: false}
     })
 

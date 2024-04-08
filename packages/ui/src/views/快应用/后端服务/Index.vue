@@ -38,8 +38,7 @@
     // }
     let { id, aid, bean, inited, updateContent } = pageEditor(
         { mode:INSIDE, language:"node", dbHost:"localhost" },
-        d=> JSON.parse(d),
-        true
+        d=> JSON.parse(d)
     )
 
     let canDeploy = computed(()=> bean.value.mode==INSIDE)

@@ -1,7 +1,9 @@
 <template>
-    <component ref="sfc" :is="getRender(bean.ui)" :code="bean.code" :done="onLoad" />
+    <div style="height: calc(100vh - 36px);">
+        <component ref="sfc" :is="getRender(bean.ui)" :code="bean.code" :done="onLoad" />
 
-    <DocumentList v-if="ok" class="mt-4" :pid="page.id" />
+        <DocumentList v-if="ok" class="mt-4" :pid="page.id" />
+    </div>
 </template>
 
 <script setup>

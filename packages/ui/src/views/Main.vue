@@ -133,7 +133,7 @@
 
     const otherMenuHandlers = {
         'dev-h5'            : ()=> M.dialog({title:`访问本地前端项目`, showIcon:false, content:()=> h(LocalDev), style:{width:"640px"}}),
-        'dev-mapping'       : ()=> M.dialog({title:`配置 SERVICE 映射`, showIcon:false, content:()=> h(ServiceMapping), style:{width:"580px"}}),
+        'dev-mapping'       : ()=> M.dialog({title:`配置 SERVICE 映射`, showIcon:false, content:()=> h(ServiceMapping), style:{width:"820px"}}),
         'download-client'   : ()=> M.confirm(
             `下载平台客户端程序包`,
             UI.html(`客户端<b class='primary'>（原生环境）</b>支持执行 <b class='primary'>RPA机器人</b>，在交互上提供更好的用户体验，程序包解压后即可使用<br><br>确定下载吗？`),

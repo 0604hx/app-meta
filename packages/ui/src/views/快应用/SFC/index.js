@@ -6,6 +6,8 @@ import NaiveRender from './sfc-naive.vue'
 import VantRender from './sfc-vant.vue'
 import VarletRender from './sfc-varlet.vue'
 
+const { dependencies } = _APP_INFO_
+
 const NAIVE     = "NAIVE"
 const VANT      = "VANT"
 const VARLET    = "VARLET"
@@ -79,10 +81,18 @@ export const varletTemplate = `<template>
 `
 
 export const uiList = [
-    { id: NAIVE, text:`管理界面所用 UI，仅支持 PC 端`, img: NaiveLogo, url:"https://www.naiveui.com/" },
-    { id: VANT, text:`一个轻量、可定制的移动端组件库（版本 Vant4），有赞公司开源。适配 PC 端、移动端`, img:VantLogo, url:"https://vant-contrib.gitee.io/vant/" },
-    { id: VARLET, text:`Material 风格移动端组件库。适配 PC 端、移动端`, img: VarletLogo, url:'https://varlet.gitee.io/varlet-ui/#/en-US/index'}
+    { id: NAIVE, text:`管理界面所用 UI，仅支持 PC 端`, img: NaiveLogo, url:"https://www.naiveui.com/", package:"naive-ui" },
+    { id: VANT, text:`一个轻量、可定制的移动端组件库（版本 Vant4），有赞公司开源。适配 PC 端、移动端`, img:VantLogo, url:"https://vant-contrib.gitee.io/vant/", package:"vant" },
+    { id: VARLET, text:`Material 风格移动端组件库。适配 PC 端、移动端`, img: VarletLogo, url:'https://varlet.gitee.io/varlet-ui/#/en-US/index', package:"@varlet/ui" }
 ]
+
+export const getVersion = pkgName => dependencies[pkgName]
+
+export const uiVersionText = ui=>{
+    const bean = uiList.find(v=>v.id==ui)
+    if(!bean)   return ui
+    return `${ui}@${getVersion(bean.package)}`
+}
 
 /**
  * 转换器

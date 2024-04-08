@@ -32,9 +32,11 @@
         {
             title:"标题", key:"name",
             render: row=> h(ClickInput, {
+                class:"cursor-pointer",
                 text:row.name, special:true,
                 onUpdate:v=>modify(row, "name", v, `标题更改为：${v}`),
-                title:`完整编号：${row.aid}/${row.id}`
+                onClick:()=>toView(row),
+                title:`完整编号：${row.aid}/${row.id}（双击可编辑标题）`
             })
         },
         {

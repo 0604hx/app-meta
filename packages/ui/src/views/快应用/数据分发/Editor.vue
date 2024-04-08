@@ -31,6 +31,6 @@
 
         },
         d=> JSON.parse(d),
-        false
+        { padding: false }
     )
 </script>

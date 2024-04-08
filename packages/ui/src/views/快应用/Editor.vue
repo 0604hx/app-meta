@@ -13,12 +13,20 @@
 
 <script setup>
     import { ref,h } from 'vue'
+    import { useRoute } from 'vue-router'
+
     import Banner from "@CC/Banner.vue"
 
-    import BottomMenu from "./bottom-menu-editor.vue"
+    import BottomMenu from "./widget/bottom-menu-editor.vue"
+
+    import { saveCache } from "."
+
+    const { aid, id } = useRoute().params
 
     let footer = h(Banner, {text: Config.footer||undefined})
 
     let padding = ref(12)
     E.on("main.padding", (v=12)=> padding.value=v)
+
+    E.on("editor.cache", ({data, limit=10})=> saveCache(id, data, limit))
 </script>

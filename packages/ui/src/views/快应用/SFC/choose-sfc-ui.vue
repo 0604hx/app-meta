@@ -10,7 +10,7 @@
                 <n-radio v-for="item in uiList" :value="item.id" class="w-full">
                     <n-thing :description="item.url" :content="item.text" content-indented>
                         <template #avatar><img style="width: 60px; max-height: 60px;margin: 6px;" :src="item.img"></template>
-                        <template #header> <b>{{item.id}}</b> </template>
+                        <template #header> <b>{{item.id}}</b> （版本：{{getVersion(item.package)}}）</template>
                     </n-thing>
                 </n-radio>
             </n-space>
@@ -25,7 +25,7 @@
 <script setup>
     import { ref } from 'vue'
 
-    import { codeTemplate, uiList } from '.'
+    import { codeTemplate, uiList, getVersion } from '.'
 
     const props = defineProps({
         onSelect:{type:Function}

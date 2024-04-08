@@ -40,7 +40,7 @@
 
     onMounted(() => {
         window.metaChangePage = (aid, pid)=>{
-            router.replace({name:"app-view", params:{aid, pid}})
+            router.push({name:"app-view", params:{aid, pid}})
         }
     })
 

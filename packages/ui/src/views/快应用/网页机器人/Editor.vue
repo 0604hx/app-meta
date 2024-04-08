@@ -106,7 +106,7 @@
 
     import { createRobot } from "."
 
-    let { id, bean, inited, loading , updateContent } = pageEditor(createRobot, d=> JSON.parse(d), false)
+    let { id, bean, inited, loading , updateContent } = pageEditor(createRobot, d=> JSON.parse(d), { padding: false })
 
     const toImport = ()=> H.io.chooseAndRead(".js").then(d=> {
         bean.value.code = d.result

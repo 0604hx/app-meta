@@ -12,7 +12,7 @@ import * as service from './module/service'
 
 import * as db from './module/db'
 
-import { openUrl, withPost as post } from "./common"
+import { logger as log, openUrl, withPost as post } from "./common"
 
 /**
  * 初始化操作
@@ -86,7 +86,8 @@ export {
     api,
     app,
     data,
-    service
+    service,
+    log
 }
 
 /**

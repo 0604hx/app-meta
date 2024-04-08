@@ -1,10 +1,9 @@
 <template>
-    <n-spin :show="state==0">
-        <component v-if="state==1" :is='com'></component>
-        <n-alert v-else-if="state==-1" type="error" :bordered="false" title="渲染 SFC 失败">
-            {{error}}
-        </n-alert>
-    </n-spin>
+    <div v-if="state==0" class="text-center"><n-spin /></div>
+    <component v-else-if="state==1" :is='com'></component>
+    <n-alert v-else-if="state==-1" type="error" :bordered="false" title="渲染 SFC 失败">
+        {{error}}
+    </n-alert>
 </template>
 
 <script setup>

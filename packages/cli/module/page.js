@@ -51,7 +51,7 @@ const deploy = async (packageName, ps, cmd)=>{
     }
 
     let packFile = `${root}/${packageName}.pack.zip`
-    console.log(`即将对模块 ${packageName} 进行${ps.zip?"打包":"部署"}操作...`)
+    console.log(`即将对模块 ${packageName} 进行${ps.zip?"打包（Zip 压缩）":"部署"}操作...`)
 
     if(ps.zip===true){
         // 执行打包操作

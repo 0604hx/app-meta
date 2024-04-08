@@ -57,8 +57,8 @@
     import H5Render from "./小程序/Render.vue"
 
     import DefaultHome from "./Home.vue"
-    import About from "./about.vue"
-    import BottomMenu from "./bottom-menu.vue"
+    import About from "./widget/about.vue"
+    import BottomMenu from "./widget/bottom-menu.vue"
 
     import { loadContent, isUnLimitPageId } from "."
 

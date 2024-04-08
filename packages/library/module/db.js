@@ -10,7 +10,7 @@ import { compact } from "./date"
  */
 let db = null
 
-const VERSION = 20241231000000
+const VERSION = 92024040800000
 const tables = [
     'test',
     /**
@@ -21,7 +21,14 @@ const tables = [
      * width    窗口宽度
      * height   窗口高度
      */
-    'window'
+    'window',
+    /**
+     * 本地数据缓存，如快应用每次修改后，临时保存到本地，以免数据丢失
+     * id       唯一主键
+     * data     JSON
+     * date     保存日期
+     */
+    'cache'
 ]
 
 export const init = ()=> new Promise((ok, fail)=>{

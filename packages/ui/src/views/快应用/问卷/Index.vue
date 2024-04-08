@@ -22,6 +22,6 @@
     let { id, bean, inited, updateContent } = pageEditor(
         {anonymous:false, time: null,summary:"", limit:1, items:[newQ()]},
         d=> JSON.parse(d),
-        false
+        { padding: false }
     )
 </script>

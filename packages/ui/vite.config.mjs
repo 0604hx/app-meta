@@ -11,7 +11,6 @@ const pkg = require("./package.json")
 
 const BACKEND_CONTEXT   = "/app-meta"      //后端服务地址前缀
 const BACKEND_HOST      =  "http://localhost:10086"
-const BASE_URL          = isProduction ? BACKEND_CONTEXT : ""
 
 const VERSION = (()=>{
     let now = new Date

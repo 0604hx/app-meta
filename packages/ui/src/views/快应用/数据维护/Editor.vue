@@ -66,7 +66,7 @@
     let { id, bean, inited, updateContent } = pageEditor(
         { summary:"", code:"", types:[".xlsx",".csv",".txt"], maxSize:1, dataType:"JSON", btnText:"选择数据文件" },
         d=> JSON.parse(d),
-        false
+        { padding: false }
     )
 
     const toSave = ()=>{

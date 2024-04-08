@@ -1,8 +1,9 @@
 <template>
-    <n-element style="position:fixed;z-index: 999;bottom: 30px;right:2px;width: 44px;height:44px;">
+    <!-- bottom: 30px;right:2px -->
+    <n-element style="position:fixed;z-index: 999;bottom: -11px;right:-6px;width: 44px;height:44px;">
         <n-popover trigger="click" style="width: 260px" @update:show="onShow" placement="top-end">
             <template #trigger>
-                <n-button circle secondary type="primary"><template #icon><n-icon :component="Bars" /></template></n-button>
+                <n-button circle quaternary size="small" type="primary"><template #icon><n-icon :component="Cog" /></template></n-button>
             </template>
             <template #header><n-text class="text-lg">页面小助手</n-text></template>
 
@@ -29,7 +30,7 @@
 
 <script setup>
     import { ref, reactive } from 'vue'
-    import { Bars } from '@vicons/fa'
+    import { Bars, Cog } from '@vicons/fa'
 
     const props = defineProps({page:Object})
 

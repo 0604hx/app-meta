@@ -145,7 +145,7 @@
 
     import { createFaas, funcModes, resultTypes, paramsTypes, demoJSCode } from "."
 
-    let { id, aid, bean, inited, loading , updateContent } = pageEditor(createFaas, d=> JSON.parse(d), false)
+    let { id, aid, bean, inited, loading , updateContent } = pageEditor(createFaas, d=> JSON.parse(d), { padding: false })
 
     let sources = ref([])
     let mdEditor = ref()

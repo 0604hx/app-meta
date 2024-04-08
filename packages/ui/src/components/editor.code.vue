@@ -3,7 +3,7 @@
     更多配置请参考 https://github.com/surmon-china/vue-codemirror
 -->
 <template>
-    <codemirror
+    <Codemirror
         v-model="code"
         :indentWithTab="false"
         :placeholder="placeholder"
@@ -65,6 +65,7 @@
             if(window.Config?.isDev===true) console.debug(`[CODE-MIRROR] 注册快捷键 ${key}：${handler==null?"未传递处理函数（即屏蔽默认行为）":"自定义处理函数"}`)
         })
     }
+    extensions.push(Prec.high(keymap.of([{key:'Ctrl-Y', run:'deleteLine'}])))
 
     let code = ref(props.value)
 
