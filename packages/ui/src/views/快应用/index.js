@@ -105,7 +105,7 @@ export function pageManage(router){
  *
  * @typedef {Object} EditorConfig
  * @property {Boolean} padding - 是否使用编辑页面的 padding
- * @property {Number} cacheDelay - 每次缓存的间隔，单位秒，默认 30
+ * @property {Number} cacheDelay - 每次缓存的间隔，单位秒，默认 60
  * @property {Number} cacheLimit - 缓存数量上限，默认 10
  * @property {Function} cacheHandler - 读取缓存数据后的处理函数
  *
@@ -115,7 +115,7 @@ export function pageManage(router){
  * @returns
  */
 export function pageEditor(defaultVal, translator, config){
-    config = Object.assign({padding: true, cacheDelay:30, cacheLimit: 10}, config)
+    config = Object.assign({padding: true, cacheDelay:60, cacheLimit: 10}, config)
 
     let {id, aid}   = useRoute().params
     let bean        = ref(defaultVal)

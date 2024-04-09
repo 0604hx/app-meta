@@ -30,6 +30,6 @@
     "license": "MIT",
     "devDependencies": {
         "@rollup/plugin-commonjs": "^25.0.7",
-        "vite": "^5.0.12"
+        "vite": "^5.2.8"
     }
 }

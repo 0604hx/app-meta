@@ -11,7 +11,7 @@ import '@T/app.less'
 // 全局工具配置
 import "@U"
 
-import { setupStore } from '@/Store'
+import { setupStore } from '@/store'
 
 //引入事件通信组件
 import mitt from 'mitt'

@@ -1,5 +1,5 @@
 <template>
-    <div @dblclick="editing=true" @click="onClick">
+    <div @dblclick="ondblClick" @click="onSingleClick">
         <template v-if="editing">
             <n-input v-model:value="data" ref="input" :size="size" @blur="editing=false" @keyup="onKeyup">
                 <template #suffix>
@@ -32,6 +32,8 @@
         special:{type:Boolean, default: false}
     })
 
+    let timer
+
     let input = ref()
     let data = ref(props.text)
     const editing = ref(false)
@@ -44,5 +46,15 @@
             M.warn(`内容未修改`)
     }
     const onKeyup = e=> e.code === 'Enter' && toUpdate()
+
+    const ondblClick = e=>{
+        clearTimeout(timer)
+        editing.value = true
+    }
+    const onSingleClick = e=>{
+        clearTimeout(timer)
+        timer = setTimeout(props.onClick, 400)
+    }
+
     watch(editing, ()=>nextTick(()=> input.value && input.value.focus()))
 </script>
