@@ -7,7 +7,7 @@
             <DataManager />
         </n-tab-pane>
         <n-tab-pane name="history" display-directive="show:lazy" tab="历史记录">
-            <BatchManager />
+            <BatchManager :aid :pid="id" />
         </n-tab-pane>
     </n-tabs>
 </template>

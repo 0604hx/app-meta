@@ -7,6 +7,7 @@
 
 <script setup>
     import { ref, reactive, onMounted } from 'vue'
+    import { useRoute } from 'vue-router'
 
     import { triggerAfterSubmit } from '@grid-form/common'
     import { FormRender, RenderFuncs } from "@grid-form/render-naive"
@@ -15,6 +16,7 @@
     import { renderProps } from "../"
 
     const props = defineProps(renderProps)
+    const aid = useRoute().params.id
 
     let form = reactive(JSON.parse(props.data))
     let posted = false
@@ -42,7 +44,7 @@
                 })
         }
         else
-            H.data.insert(formObj).then(onSubmitDone)
+            H.data.insert({aid}, formObj).then(onSubmitDone)
     }
 
     /**

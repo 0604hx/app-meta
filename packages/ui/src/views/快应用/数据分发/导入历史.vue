@@ -8,6 +8,8 @@
     import { NPopconfirm } from 'naive-ui'
     import { Trash } from '@vicons/fa'
 
+    const props = defineProps({aid:String, pid:[String, Number]})
+
     let loading = ref(false)
     let beans   = ref([])
     let height = "calc(100vh - 130px)"
@@ -37,7 +39,7 @@
         }
     ]
     const refresh = ()=>{
-        RESULT("/page/batch-list", {aid: H.data.getAppId(), pid: H.data.getPageId()}, d=>beans.value = d.data, {loading})
+        RESULT("/page/batch-list", {aid: props.aid, pid: props.pid}, d=>beans.value = d.data, {loading})
     }
     const remove = row=> RESULT("/page/batch-clear", {id: row.id}, d=> {
         M.notice.ok(`删除批次下 ${d.data} 条数据`)

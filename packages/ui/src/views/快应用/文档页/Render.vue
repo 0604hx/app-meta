@@ -3,7 +3,11 @@
         增加记录左侧文档清单开关的功能
 -->
 <template>
-    <n-layout style="height: calc(100vh - 36px)">
+    <div v-if="pure" class="markdown-content-div">
+        <MDRender :code="code" />
+        <div v-if="!code" class="text-center"> <n-text depth="3">-文档空空如也-</n-text> </div>
+    </div>
+    <n-layout v-else style="height: calc(100vh - 36px)">
         <n-layout-header :style="{height: headerHeight+'px', padding: '8px'}" bordered>
             <n-space justify="space-between">
                 <div style="font-size: 24px;"><Title :text="title" /></div>

@@ -75,11 +75,12 @@ export const findTemplate = tpl=> templates.find(v=>v.id==tpl) || {text:"未知"
  * 渲染器属性
  */
 export const renderProps = {
-    aid: {type:String, default:""},
-    page: {type:Object},
-    pid:{type:[Number, String], default:""},
-    data: {type:String, default:"[]"},
-    params: {type:Object, default:()=>({})}
+    aid: {type:String, default:""},             //应用ID
+    page: {type:Object},                        //页面对象
+    pid:{type:[Number, String], default:""},    //页面ID
+    data: {type:String, default:"[]"},          //快应用内容
+    params: {type:Object, default:()=>({})},    //参数
+    pure: {type:Boolean, default: false },      //是否使用纯净模式
 }
 
 export function pageManage(router){
@@ -160,10 +161,10 @@ export function pageEditor(defaultVal, translator, config){
         config.padding && E.emit(PADDING, 0)
         refresh()
 
-        if(!H.data.getAppId()){
-            // 初始化 DATA 模块，此处不传递 pid 参数，需要在 CURD 时进行手动 pid 限定
-            !H.data.inited() && H.data.init({aid, pid:"", prefix: window.SERVER, debug: process.env.NODE_ENV !== "production"})
-        }
+        // if(!H.data.getAppId()){
+        //     // 初始化 DATA 模块，此处不传递 pid 参数，需要在 CURD 时进行手动 pid 限定
+        //     !H.data.inited() && H.data.init({aid, pid:"", prefix: window.SERVER, debug: process.env.NODE_ENV !== "production"})
+        // }
 
         E.on(`editor.cache.read`, d=> config.cacheHandler && config.cacheHandler(d))
     })

@@ -43,12 +43,17 @@
                 <n-gi :span="2">
                     <n-form-item path="summary">
                         <template #label>
-                            应用简介
-                            <n-text depth="3" class="ml-2 text-xs">支持 MARKDOWN 语法</n-text>
+                            <n-flex>
+                                <div>
+                                    应用简介
+                                    <n-text depth="3" class="ml-2 text-xs">支持 MARKDOWN 语法</n-text>
+                                </div>
+                                <n-checkbox label="启用富文本编辑器" v-model:checked="useMD" />
+                            </n-flex>
                         </template>
                         <!--启用 Markdown 编辑器-->
-                        <MDEditor v-if="useMD" ref="summaryEditor" height="360px" :code="app.summary" />
-                        <n-input v-else v-model:value="app.summary" :rows="4" type="textarea" />
+                        <MDEditor v-if="useMD" ref="summaryEditor" height="300px" :code="app.summary" />
+                        <n-input v-else v-model:value="app.summary" :rows="8" type="textarea" />
                     </n-form-item>
                 </n-gi>
             </n-grid>
@@ -144,7 +149,7 @@
         category: { required: true, type:"number", message: "请选择应用类型", trigger: "blur" }
     }
 
-    let useMD = false
+    let useMD = ref(false)        //简介是否启用 Markdown 编辑器
     let summaryEditor = ref()
     let formRef = ref()
     let inited  = ref(false)

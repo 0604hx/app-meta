@@ -68,14 +68,13 @@
 
     const route = useRoute()
     const aid = route.params.id
-    H.data.init({aid, prefix:window.SERVER, debug:Config.isDev})
 
     let blockLoaded = ref(false)
     let blocks      = ref([])
     let block       = reactive({show:false, bean:{}, isNew:false})
     let importor    = ref()
 
-    const loadBlock = ()=> H.data.listBlock().then(d=>{
+    const loadBlock = ()=> H.data.listBlock(aid).then(d=>{
         blocks.value = d.data
         blockLoaded.value = true
     })
@@ -93,14 +92,14 @@
         let {uuid, text} = block.bean
         if(!text.trim())    return M.warn(`内容不能为空`)
 
-        H.data.setBlock(uuid, text).then(d=>{
+        H.data.setBlock(aid, uuid, text).then(d=>{
             M.ok(`数据块⌈${uuid}⌋已更新`)
             block.show = false
 
             if(block.isNew) blocks.value.unshift({uuid, text})
         })
     }
-    const delBlock = (uuid, index)=> H.data.setBlock(uuid).then(d=> {
+    const delBlock = (uuid, index)=> H.data.setBlock(aid, uuid).then(d=> {
         blocks.value.splice(index, 1)
         M.ok(`数据块⌈${uuid}⌋已删除`)
     })

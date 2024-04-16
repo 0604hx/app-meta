@@ -1,5 +1,5 @@
 <template>
-    <Viewer :aid="aid" :pid="pid" :params="params" ref="viewer" />
+    <Viewer :aid="aid" :pid="pid" :params="params" ref="viewer" :pure />
 </template>
 
 <script setup>
@@ -17,6 +17,7 @@
         window.pageParams = params.value = parseParams(route.query.params)
     }
 
+    const pure = route.name == 'app-pure-view'
     let aid = ref(route.params.aid)
     let pid = ref(route.params.pid)
     let params = ref(parseParams(route.query.params))
@@ -29,8 +30,6 @@
             if(params.aid != aid.value || params.pid != pid.value){
                 aid.value = params.aid
                 pid.value = params.pid
-
-                H.data.reset()
 
                 loadParamsFromQuery()
                 nextTick(viewer.value.refresh)

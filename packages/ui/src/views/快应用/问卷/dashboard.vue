@@ -70,6 +70,8 @@
     import { ref,onMounted } from 'vue'
     import { User, ListAltRegular, Clock } from "@vicons/fa"
 
+    const props = defineProps({aid:String, pid:[String, Number]})
+
     const defFields = ["date", "user", "used"]
 
     let inited  = ref(false)
@@ -100,7 +102,7 @@
 
     onMounted(() => {
         console.debug("加载全部数据....", beans, sum)
-        H.data.query().then(d=>{
+        H.data.query({ aid:props.aid, pid:props.pid }).then(d=>{
             beans = d.data.map(v=>v.v)
             console.debug(beans)
             refresh()

@@ -115,7 +115,7 @@
     let names = {}
 
     const buildModel = ()=> new Promise((ok, fail)=>{
-        let model = {uid: form.uid, pid: config.pid}
+        let model = { uid: form.uid, pid: config.pid, aid: props.aid }
         if(form.timeFrom>0) model.timeFrom = form.timeFrom
         if(form.timeEnd>0)  model.timeEnd = form.timeEnd
         if(model.timeEnd < model.timeFrom)  throw Error(`截止日期不能小于起始日期`)

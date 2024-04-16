@@ -70,6 +70,7 @@
     let customVars  = {
         common: getPrimaryColor(uiSetting.color)
     }
+    window.color = customVars.common?.primaryColor
 
     let jumpTo = (pathOrObj)=> {
         let newRoute = typeof(pathOrObj)==='object'?pathOrObj:{name:pathOrObj}
@@ -103,7 +104,8 @@
         })
         window.User = account
 
-        if(Config.watermark != 'false'){
+        const isPure = location.hash.startsWith("#/app-pure/")
+        if(Config.watermark != 'false' && !isPure){
             let r           = Math.random()
             water.text      = H.io.render(Config.watermark_text||`{{id}}（{{date}}）`, {id:user.id, name:user.name, date: H.date.date(), ip: user.ip})
             water.width     = Math.floor(Config.watermark_width||"380")

@@ -146,7 +146,7 @@
 
     let loadOneLine = ()=> {
         let pid = bean.value.pid||""
-        H.data.query({pageSize:1, pid }).then(d=>{
+        H.data.query({pageSize:1, pid, aid }).then(d=>{
             let { data } = d
             if(data.length <= 0)
                 return M.dialog({title:"系统查询不到数据", content:UI.html(`数据范围/表ID ⌈${fid}⌋ 下无数据，请先录入再查询`),type:"warning"})

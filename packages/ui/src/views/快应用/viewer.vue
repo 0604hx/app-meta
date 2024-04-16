@@ -6,7 +6,7 @@
     <template v-else-if="state==1">
         <component :is="viewer()" />
 
-        <BottomMenu v-if="showMenu" :page="bean.page" />
+        <BottomMenu v-if="!pure" :page="bean.page" />
     </template>
     <template v-else>
         <n-alert v-if="state==2" title="应用/页面不存在" type="error">
@@ -41,6 +41,7 @@
     import { ref, watch,onMounted, h, reactive, nextTick } from 'vue'
 
     const props = defineProps({
+        pure: {type:Boolean, default: false},
         aid: {type:String, default:""},
         pid: {type:String, default:""},
         params: {type:Object, default:()=>{}},      //页面参数传递
@@ -69,7 +70,6 @@
      * 状态：-1=加载中，0=系统自带的默认首页，1=页面可正常访问，2=页面不存在，3=页面不可见，4=页面未授权
      */
     let state   = ref(-1)
-    let showMenu= true
     let data    = undefined
 
     let viewer  = ()=> {
@@ -90,7 +90,7 @@
             return null
             // throw Error(`应用⌈${bean.page.name}⌋未定义对应的渲染器，请联系管理员`)
         }
-        return h(com, {data, aid:props.aid, page: bean.page, params: props.params})
+        return h(com, {data, aid:props.aid, page: bean.page, params: props.params, pure: props.pure})
     }
 
     const defaultHome = ()=> h(DefaultHome, {app: bean.app})
@@ -148,7 +148,7 @@
                     state.value = 1
 
                     //初始化 DATA 模块，对于 table 类型，无需注入 pid（可以自由查询数据）
-                    !H.data.inited() && H.data.init({aid: props.aid, pid: isUnLimitPageId(template)?"": pid, prefix: window.SERVER, debug: process.env.NODE_ENV !== "production"})
+                    // !H.data.inited() && H.data.init({aid: props.aid, pid: isUnLimitPageId(template)?"": pid, prefix: window.SERVER, debug: process.env.NODE_ENV !== "production"})
 
                     setTimeout(()=> FETCH_JSON(window.SERVER+"/app/launch", {aid:props.aid, pid, channel}, true), 5000)
                 })

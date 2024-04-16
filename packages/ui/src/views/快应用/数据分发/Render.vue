@@ -17,12 +17,14 @@
 
 <script setup>
     import { ref,reactive, onMounted, nextTick } from 'vue'
+    import { useRoute } from 'vue-router'
 
     import MDRender from "@C/markdown/md.viewer.vue"
     import DocumentList from "../document-list.vue"
     import { renderProps } from "../"
 
     const props = defineProps(renderProps)
+    const aid = useRoute().params.id
 
     let loading = ref(false)
     let beans   = ref([])
@@ -45,7 +47,7 @@
 
         console.debug(match)
         loading.value = true
-        H.data.query({match}).then(d=>{
+        H.data.query({aid, match}).then(d=>{
             beans.value = d.data.map(dd=>dd.v)
             loading.value = false
         })

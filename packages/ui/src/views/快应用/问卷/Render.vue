@@ -56,6 +56,7 @@
 
 <script setup>
     import { ref,reactive, onMounted } from 'vue'
+    import { useRoute } from 'vue-router'
     import { ListAltRegular } from "@vicons/fa"
 
     import MDRender from "@C/markdown/md.viewer.vue"
@@ -65,6 +66,8 @@
     import { limits } from "./"
 
     const props = defineProps(renderProps)
+    const { aid, pid } = useRoute().params
+
     const build = ()=>{
         let b = JSON.parse(props.data)
         if(Array.isArray(b.items)){
@@ -84,7 +87,7 @@
 
     const toDate    = d=>H.date.datetime(d)
     const toDate2   = d=>H.date.date(d, "YYYY-MM-DD HH:mm")
-    const buildMatch= (ps={})=> Object.assign({match:{field:"user", op:"EQ", value: user.id}}, ps)
+    const buildMatch= (ps={})=> Object.assign({match:{field:"user", op:"EQ", value: user.id}, aid, pid}, ps)
     const buildId   = (row, index)=>`Q${index+1}`
 
     const checkState = ()=>{
@@ -100,7 +103,7 @@
         form.used = Math.floor((Date.now() - started)/1000)
         form.date = H.date.datetime()
 
-        H.data.insert(form).then(d=>{
+        H.data.insert({aid, pid}, form).then(d=>{
             M.notice.ok(`您的问卷结果已经提交，感谢参与！`)
             posted.value = true
         })
@@ -119,9 +122,9 @@
         if(bean.anonymous===false)
             form.user = user.id
 
-            //删除历史的数据
+        //删除历史的数据
         if(bean.limit == 2)
-            H.data.delete(buildMatch()).then(doSave)
+            H.data.remove(buildMatch()).then(doSave)
         else
             doSave()
     }

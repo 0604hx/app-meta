@@ -14,6 +14,7 @@ import Main from "@V/Main.vue"
 import Tag from "@C/custom/tag.vue"
 
 import BasicEditorView from "@V/快应用/Editor.vue"
+import PureRender from "@V/PureRender.vue"
 
 import "@S/FastApp"
 import { defaultRoute, loadCommonData } from "@S/Auth"
@@ -29,7 +30,14 @@ let blankRoutes = [
     { path: '/login-cas', name: 'login-cas', component: () => import('@V/登录/Login-cas.vue') },
 
     // 中转车站
-    { path: defaultRoute, name:'welcome', component: () => import('@V/welcome.vue') }
+    { path: defaultRoute, name:'welcome', component: () => import('@V/welcome.vue') },
+    {
+        path:"/app-pure",
+        component: PureRender,
+        children:[
+            { path: '/app-pure/:aid/:pid', name: 'app-pure-view', component: () => import('@V/快应用/ViewWithViewer.vue') }
+        ]
+    }
 ]
 
 // 仅当测试环境才加载 demo、实验室功能等页面
@@ -48,6 +56,8 @@ let router = BuildRouter(
         homePage: defaultRoute,
         mainRoutes: [
             { path: '/home', name: 'home',meta:{title:"首页"}, component: () => import('@V/首页/Home.vue') },
+            /**2024年新版首页 */
+            { path: '/home-v2', name: 'home-v2',meta:{title:"首页"}, component: () => import('@V/首页/Home.v2.vue') },
 
             { path: '/app/mine', name: 'app-mine', meta:{title:"我的应用"}, component: () => import('@V/应用维护/Mine.vue') },
 

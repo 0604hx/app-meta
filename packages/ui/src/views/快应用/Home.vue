@@ -7,7 +7,8 @@
             </n-space>
         </template>
 
-        {{app.summary}}
+        <MDRender :code="app.summary" />
+        <!-- {{app.summary}} -->
     </n-card>
 
     <div class="mt-3" v-if="pageLoaded">
@@ -20,7 +21,8 @@
                             <n-space justify="space-between">
                                 <div class="text-lg">
                                     <span class="mr-2 mt-2"><Template icon :bean="page.tpl" /></span>
-                                    <Title :text="page.name" />
+                                    <!-- <Title :text="page.name" /> -->
+                                    <n-ellipsis><Title size="small" :text="page.name" /></n-ellipsis>
                                 </div>
                                 <PageLink :id="page.id" :linked="page.active" color="primary" />
                             </n-space>
@@ -47,6 +49,8 @@
 
     import { runPage } from "@S/Runner"
     import { templates } from "./"
+
+    import MDRender from "@C/markdown/md.viewer.vue"
     import Logo from "@VW/app.logo.vue"
     import Template from "../widget/page.template.vue"
     import PageLink from "../widget/page.link.vue"

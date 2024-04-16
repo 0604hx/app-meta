@@ -57,8 +57,14 @@
             title:()=>h(NTooltip,{},{trigger:()=>h('div', {class:"cursor-pointer"}, "主页面"), default:()=>`主页面是运行应用的首页，点击下方的按钮可切换主页面（注意仅有一个主页面）`}),
             render:row=> h(
                 NTag,
-                {class:"cursor-pointer", bordered:false,type:row.main?"primary":"default", onClick:()=>modify(row, "main", !row.main, `⌈${row.name}⌋已设置为${row.main?"普通":"主"}页面`)},
-                ()=>row.main?"首页":"普通" //UI.buildIcon(Check)
+                {
+                    class:"cursor-pointer",
+                    round:true,
+                    bordered:false,
+                    type:row.main?"primary":"default",
+                    onClick:()=>modify(row, "main", !row.main, `⌈${row.name}⌋已设置为${row.main?"普通":"主"}页面`)
+                },
+                ()=>row.main?"首页":"普通"
             )
         },
         {

@@ -2,7 +2,7 @@
     <n-tooltip>
         <template #trigger>
             <n-icon v-if="icon" :component="bean.icon" :class="bean.theme" />
-            <n-tag v-else :bordered="false" :type="bean.theme">{{bean.text}}</n-tag>
+            <n-tag v-else :bordered="false" round size="small" :type="bean.theme">{{bean.text}}</n-tag>
         </template>
         {{bean.summary}}
     </n-tooltip>
