@@ -11,13 +11,13 @@
 
 ## 更新文件
 
-1. 将压缩包解压，挑选指定文件复制到`public/plugins`目录
+1. 将压缩包解压，挑选指定文件复制到`public/static`目录
 2. 更新 `public/index.html` 内对于图标库的引用
 
 ```text
 # 目录结构
 public
-    plugins\
+    static\
         font-awesome\
             css\     
                 brands.min.css            

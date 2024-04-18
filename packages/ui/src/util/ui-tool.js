@@ -154,6 +154,8 @@ export default {
     },
 
     html (html){
+        if(Array.isArray(html))
+            html = html.map((v,i)=>`${i+1}. ${v}`).join("<br />")
         return ()=>h('div', {innerHTML: html })
     },
 

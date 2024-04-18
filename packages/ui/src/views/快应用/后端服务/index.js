@@ -41,7 +41,7 @@ export const checkServerConfig = bean=>{
         return M.dialog({
             title:`服务配置检验不通过（存在 ${fails.length} 个问题）`,
             type:"error",
-            content: UI.html(fails.map((v,i)=>`${i+1}. ${v}`).join("<br />"))
+            content: UI.html(fails)
         })
     }
 

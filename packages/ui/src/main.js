@@ -55,9 +55,9 @@ let router = BuildRouter(
     {
         homePage: defaultRoute,
         mainRoutes: [
-            { path: '/home', name: 'home',meta:{title:"首页"}, component: () => import('@V/首页/Home.vue') },
+            { path: '/home', name: 'home-v1',meta:{title:"首页"}, component: () => import('@V/首页/Home.vue') },
             /**2024年新版首页 */
-            { path: '/home-v2', name: 'home-v2',meta:{title:"首页"}, component: () => import('@V/首页/Home.v2.vue') },
+            { path: '/home-v2', name: 'home',meta:{title:"首页"}, component: () => import('@V/首页/Home.v2.vue') },
 
             { path: '/app/mine', name: 'app-mine', meta:{title:"我的应用"}, component: () => import('@V/应用维护/Mine.vue') },
 

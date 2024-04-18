@@ -9,19 +9,21 @@
     import { NText, NIcon, NTooltip } from "naive-ui"
     import { Plus, Desktop } from "@vicons/fa"
 
-    import { templateGroups, templates, findTemplate } from "./"
+    import { isDevelopor } from "@S/Auth"
+
+    import { templateGroups, allTemplateGroups, templates, findTemplate } from "./"
 
     const emits = defineEmits(['add'])
     const pros = defineProps({aid:{type:String}})
 
-    // templates.map(v=>{
-    //     return { key:v.id, icon:UI.buildIcon2(v.icon || Desktop), label: v.text, summary:v.summary, disabled: v.disabled}
-    // })
-    // 2023-03-31 增加分组
+    /**
+     * 2023-03-31 增加分组
+     * 2024-04-17 增加角色过滤
+     */
     let options = (()=>{
-        return Object.keys(templateGroups).map(theme=>({
+        return Object.keys(isDevelopor() ? allTemplateGroups: templateGroups).map(theme=>({
             type:"group",
-            label: templateGroups[theme],
+            label: allTemplateGroups[theme],
             children : templates.filter(t=>t.theme == theme).map(v=>({ key:v.id, icon:UI.buildIcon2(v.icon || Desktop, {class:theme}), label: v.text, summary:v.summary, disabled: v.disabled}))
         }))
     })()

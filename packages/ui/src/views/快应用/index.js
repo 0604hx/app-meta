@@ -18,7 +18,11 @@ const MIX       = "warning"
  * @property {Function} onCreate - 新建模板的处理函数（用于自定义页面对象）
  */
 
-export const templateGroups = { primary:"数据采集", info:"展示页面", warning:"综合功能" }
+export const templateGroups = {[INPUT]:"数据采集", [OUTPUT]:"展示页面"}
+export const allTemplateGroups = { [INPUT]:"数据采集", [OUTPUT]:"展示页面", [MIX]:"综合功能" }
+
+// export const templateGroups = { primary :"数据采集", info:"展示页面"}
+// export const allTemplateGroups = { primary:"数据采集", info:"展示页面", warning:"综合功能" }
 
 /**
  * 对于特殊类型的页面，初始化 DATA 模块时无需设置其页面ID（方便自由读写任意类型的数据）

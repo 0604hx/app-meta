@@ -46,6 +46,6 @@
     const onFailed = fails => M.dialog({
         title:`表单校验失败（存在 ${fails.length} 个问题）`,
         type:"error",
-        content: UI.html(fails.map((v,i)=>`${i+1}. ${v}`).join("<br />"))
+        content: UI.html(fails)
     })
 </script>

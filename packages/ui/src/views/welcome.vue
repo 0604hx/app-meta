@@ -12,9 +12,7 @@
     import { ref, onMounted } from 'vue'
     import { useRouter } from 'vue-router'
 
-    const router = useRouter()
+    import { defaultHome } from "@S/Auth"
 
-    onMounted(() => {
-        router.replace("/home")
-    })
+    onMounted(() => useRouter().replace(defaultHome))
 </script>

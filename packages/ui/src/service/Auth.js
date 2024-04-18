@@ -2,7 +2,7 @@
  * @Author: 集成显卡
  * @Date: 2022-11-02 13:34:30
  * @Last Modified by: 集成显卡
- * @Last Modified time: 2023-06-13 10:57:42
+ * @Last Modified time: 2024-04-17 22:38:36
  */
 export const ADMIN = "ADMIN"
 
@@ -22,11 +22,17 @@ export const hasAllRole = (...items)=>{
 }
 
 /**
- *
+ * 是否为管理员或者指定的角色
  * @param  {...String} items
  * @returns
  */
 export const isAdminOr = (...items)=> hasAnyRole(ADMIN, ...items)
+
+/**
+ * 判断是否为开发者角色
+ * @returns {Boolean}
+ */
+export const isDevelopor = ()=> isAdminOr("DEPLOYER", "DEVELOPER")
 
 /**
  * 尝试跳转到 CAS 登录，使用方式：
@@ -57,7 +63,8 @@ export const tryLoginWithCAS = fromUrl =>{
  */
 export const loadCommonData = ()=> FETCH_JSON(`${window.SERVER}/welcome`, {}, true)
 
-/**
- * 默认路由地址
- */
+//默认路由地址
 export const defaultRoute = "/welcome"
+
+// 默认的路由名称
+export const defaultHome = "/home-v2"

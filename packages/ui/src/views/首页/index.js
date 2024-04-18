@@ -10,13 +10,9 @@
  * @property {*} com - 组件实例
  */
 
-// import WidgetDemo from "./widget/demo.vue"
-import WidgetMinePage from './widget/我的关注.vue'
-import WidgetWrap from "./widget/快捷方式.vue"
-import WidgetAppTop from "./widget/应用排行.vue"
-
 const NAME = "ui.home.grid"
 const COLS = 8
+const GAP  = 10
 
 /**
  *
@@ -28,15 +24,15 @@ const buildWidget = ps=> Object.assign({card:true, span:1, height:'auto'}, ps)
 export const getConfig = ()=>Object.assign(
     {
         cols: COLS,
-        x: 8,
-        y: 8,
+        x: GAP,
+        y: GAP,
         /**@type {Array<HomeWidget>} */
         items: [
-            buildWidget({uuid:"mine-page", title:"快捷入口", span:COLS, card:false, com:WidgetMinePage}),
-            buildWidget({uuid:'app-top', title:"应用排行",com:WidgetAppTop, span: COLS, card:false}),
-            // buildWidget({uuid:'demo', title:"演示挂件", span:2, params:{name:"001"}, com: WidgetDemo}),
-            // buildWidget({com:WidgetWrap, card:false, params:{text:"抽签小程序", height:60, aid:'SJCQ-BDB', pid:2}}),
-            buildWidget({uuid:'45', aid:'demo', title:"静夜思", card:true, height: '110px' })
+            buildWidget({uuid:"mine-page", title:"快捷入口", span:COLS, card:true, com:"M001"}),
+            buildWidget({uuid:'app-top', title:"应用排行",com:"M002", span: COLS, card:false}),
+            // buildWidget({com:"M003", card:false, params:{text:"抽签小程序", height:60, aid:'SJCQ-BDB', pid:2}}),
+            // buildWidget({ title:`应用总览`, params:{aid:"demo", simple:true, height: 200}, com: "M004", span: 4 }),
+            // buildWidget({uuid:'45', aid:'demo', title:"静夜思", card:true, height: '110px' })
         ]
     },
     H.store.getObj(NAME, {})

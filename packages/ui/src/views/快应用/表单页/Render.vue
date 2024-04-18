@@ -16,7 +16,7 @@
     import { renderProps } from "../"
 
     const props = defineProps(renderProps)
-    const aid = useRoute().params.id
+    const { aid, pid } = useRoute().params
 
     let form = reactive(JSON.parse(props.data))
     let posted = false
@@ -40,11 +40,16 @@
                 .then(onSubmitDone)
                 .catch(e=>{
                     console.debug(`表单提交失败`, e)
-                    M.dialog({type:"error", title:"表单提交失败", description:form.url, content: e.message })
+                    M.dialog({type:"error", title:"表单提交失败", content: UI.html([e.message, "", `<span class='h'>${form.url}</span>`]) })
                 })
         }
-        else
-            H.data.insert({aid}, formObj).then(onSubmitDone)
+        else {
+            H.data.insert({aid, pid}, formObj)
+                .then( onSubmitDone )
+                .catch(e=> {
+                    M.dialog({type:"error", title:"数据接口调用时出错", content: UI.html([typeof(e)==='string'? e: e.message, `所用接口为：<span class='h'>data.insert</span>`])})
+                })
+        }
     }
 
     /**
@@ -58,5 +63,5 @@
             triggerAfterSubmit(form.afterSubmit, formBean)
     }
 
-    const onFailed = fails=> M.dialog({content: UI.html(fails.map((f,i)=>`${i+1}. ${f}`).join("<br >")), title:"表单校验未通过", type:"error"})
+    const onFailed = fails=> M.dialog({content: UI.html(fails), title:"表单校验未通过", type:"error"})
 </script>

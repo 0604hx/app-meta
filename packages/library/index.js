@@ -187,3 +187,5 @@ export const hasText = v=>{
 }
 
 export { openUrl, post, imgToBase64 }
+
+export const version = _VERSION_

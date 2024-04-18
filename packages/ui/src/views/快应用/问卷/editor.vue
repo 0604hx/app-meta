@@ -101,7 +101,7 @@
             if(item.type!=2 && !item.options)           errors.push(`选择项不能为空`)
             if(item.type==1 && (item.max < item.min))   errors.push(`最大选择数不能小于最小选择数`)
             if(errors.length)
-                return M.dialog({type:"error", title:`题目 ${i+1} 配置有误`, content: UI.html(errors.map((v, i)=>`${i+1}、${v}`).join("<br>"))})
+                return M.dialog({type:"error", title:`题目 ${i+1} 配置有误`, content: UI.html(errors) })
 
             let q = {title:item.title, required:item.required,abbr:item.abbr, type:item.type}
             if(q.type != 2){

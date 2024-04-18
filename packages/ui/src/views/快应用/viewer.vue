@@ -10,26 +10,26 @@
     </template>
     <template v-else>
         <n-alert v-if="state==2" title="应用/页面不存在" type="error">
-            您尝试访问的应用 <n-tag :bordered="false" type="info">{{aid}}</n-tag>
-            <template v-if="pid"> / 资源  <n-tag :bordered="false" type="info">#{{pid}}</n-tag></template>
+            您尝试访问的应用 <n-tag :bordered="false" :type>{{aid}}</n-tag>
+            <template v-if="pid"> / 资源  <n-tag :bordered="false" :type>#{{pid}}</n-tag></template>
             不存在，请检查后再试。
         </n-alert>
         <n-alert v-else-if="state==3" title="应用/页面不可见" type="warning">
             您尝试访问的应用
-            <n-tag :bordered="false" type="info">{{aid}}</n-tag> /
-            <n-tag :bordered="false" type="info">{{bean.page.name||('#'+pid)}}</n-tag>
+            <n-tag :bordered="false" :type>{{aid}}</n-tag> /
+            <n-tag :bordered="false" :type>{{bean.page.name||('#'+pid)}}</n-tag>
             未开放，请联系应用管理员开启后再重试。
         </n-alert>
         <n-alert v-else-if="state==4" title="服务未授权" type="warning">
             您未获得应用
-            <n-tag :bordered="false" type="info">{{aid}}</n-tag> /
-            <n-tag :bordered="false" type="info">{{bean.page.name||('#'+pid)}}</n-tag>
+            <n-tag :bordered="false" :type>{{aid}}</n-tag> /
+            <n-tag :bordered="false" :type>{{bean.page.name||('#'+pid)}}</n-tag>
             的使用权限，请联系应用管理员授权后再重试。
         </n-alert>
         <n-alert v-if="state==5" title="渲染器缺失" type="error">
             您尝试访问的应用
-            <n-tag :bordered="false" type="info">{{aid}}</n-tag> /
-            <n-tag :bordered="false" type="info">{{bean.page.name||('#'+pid)}}</n-tag>
+            <n-tag :bordered="false" :type>{{aid}}</n-tag> /
+            <n-tag :bordered="false" :type>{{bean.page.name||('#'+pid)}}</n-tag>
             未定义对应的渲染器⌈{{bean.page.template}}⌋，请联系管理员。
         </n-alert>
 
@@ -63,6 +63,7 @@
 
     import { loadContent, isUnLimitPageId } from "."
 
+    const type = "primary"
     const channel =  window.isClient?"client":"browser"
 
     const bean = reactive({app:{}, page:{}})
@@ -131,9 +132,11 @@
                         return state.value = 4
                     }
 
-                    //运行小程序
+                    /**
+                     * 运行小程序
+                     * 是否显示底部的菜单？
+                     */
                     if(template === 'h5'){
-                        showMenu = false
                         // 不需要内边距
                         E.emit("main.padding", 0)
 
@@ -150,9 +153,12 @@
                     //初始化 DATA 模块，对于 table 类型，无需注入 pid（可以自由查询数据）
                     // !H.data.inited() && H.data.init({aid: props.aid, pid: isUnLimitPageId(template)?"": pid, prefix: window.SERVER, debug: process.env.NODE_ENV !== "production"})
 
-                    setTimeout(()=> FETCH_JSON(window.SERVER+"/app/launch", {aid:props.aid, pid, channel}, true), 5000)
+                    setTimeout(()=> FETCH_JSON(window.SERVER+"/app/launch", { aid: props.aid, pid, channel }, true), 5000)
                 })
-                .catch(e=> state.value = 4)
+                .catch(e=> {
+                    H.log.error(`读取 Page 信息出错`, e)
+                    state.value = 4
+                })
             }
         )
     }

@@ -137,31 +137,14 @@ export const getUserInfo = async ()=>{
     return user.data
 }
 
-/**
- *
- * @param {*} rows
- * @param {*} _pid
- * @param {*} ps
- */
-export const _insert = (rows, _pid="", ps={})=>{
-    let model = { aid , pid: _pid||pid }
-    let isBatch = Array.isArray(rows)
-    model[isBatch?"objs":"obj"] = rows
-    if(isBatch && "batch" in ps)   model.batch = ps.batch
-    if("origin" in ps)  model.origin= ps.origin
-
-    //如果填写了 batch 属性，则必须填写 pid
-    if(!!model.batch && !model.pid) throw Error(`按批次导入数据请指明 pid ，使用 insert(rows, pid, ps) 的参数二传递该值`)
-
-    return send(model, "data/create")
-}
+const withPromise = handler=> new Promise((resolve, reject)=> Promise.resolve(handler()).then(resolve).catch(reject))
 
 /**
  * 插入数据（单个或者数组）
  * @param {String|DataOption} opt
  * @param {Object|Array} rows
  */
-export const insert = (opt, rows, ps={})=>{
+export const insert = (opt, rows, ps={})=>withPromise(()=>{
     opt = toOption(opt)
     let isBatch = Array.isArray(rows)
     let model = { aid:opt.aid, pid: opt.pid, [isBatch?'objs':'obj']: rows }
@@ -175,7 +158,7 @@ export const insert = (opt, rows, ps={})=>{
     if(!!model.batch && !model.pid) throw Error(`按批次导入数据请指明 pid ，使用 insert({pid}, rows) 的格式传递该值`)
 
     return send(model, "data/create")
-}
+})
 
 /**
  * 更新数据（按确定的 id）
@@ -183,25 +166,12 @@ export const insert = (opt, rows, ps={})=>{
  * @param {Object} newVal
  * @returns {Promise}
  */
-export const update = (opt, newVal)=>{
+export const update = (opt, newVal)=>withPromise(()=>{
     opt = toOption(opt)
     let model = { aid: opt.aid, obj: newVal, id: opt.id }
 
     return send(model, "data/update")
-}
-
-// const _buildMatchModel = modelOrId=>{
-//     let model = { aid }
-//     if(typeof(modelOrId) !== 'object')
-//         model.id = modelOrId
-//     else{
-//         ["pid", "uid", "timeFrom", "timeEnd"].forEach(k=> { if(k in modelOrId) model[k] = modelOrId[k] })
-//         if(!!pid)   model['pid'] = pid
-
-//         modelOrId.match && (model.match = Array.isArray(modelOrId.match)? modelOrId.match : [modelOrId.match])
-//     }
-//     return model
-// }
+})
 
 /**
  *
@@ -227,14 +197,14 @@ const _buildMatchModel = opt=>{
     return m
 }
 
-export const query = (opt={})=>{
+export const query = (opt={})=>withPromise(()=>{
     let model = _buildMatchModel(opt)
     // 对于查询，还可以定义更多的限定（如分页）
     if(typeof(opt) == 'object')
         ["page", "pageSize", "desc"].forEach(k=> { if(k in opt) model[k] = opt[k] })
 
     return send(model, "data/query")
-}
+})
 
 /**
  * 参数同 query
@@ -251,7 +221,12 @@ export const remove = (modelOrId)=> send(_buildMatchModel(modelOrId), "data/dele
  */
 const _exportData = (modelOrId, headers, filename="", format="xlsx")=> new Promise((ok, reject)=>{
     if(!headers || !headers.length)         return reject(`参数 headers （数据标题列） 必须填写`)
-    let model = _buildMatchModel(modelOrId)
+    let model
+    try{
+        model = _buildMatchModel(modelOrId)
+    }catch(e){
+        return reject(e)
+    }
 
     model.headers = typeof(headers[0]) === 'string'? headers.map(field=>({field, text:field})): headers
     model.format = format
@@ -273,7 +248,6 @@ const _exportData = (modelOrId, headers, filename="", format="xlsx")=> new Promi
         ok()
     })
     .catch(e=> reject(e.message))
-
 })
 
 export const exportToExcel = (modelOrId={}, headers=[], filename)=> _exportData(modelOrId, headers, filename)

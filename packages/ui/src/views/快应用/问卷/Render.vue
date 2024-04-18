@@ -117,7 +117,7 @@
                 errors.push(`题目${index+1}（${i.id}）未填写`)
         })
         if(errors.length)
-            return M.dialog({type:"error", title:`问卷填写有误`, content: UI.html(errors.map((v, i)=>`${i+1}、${v}`).join("<br>"))})
+            return M.dialog({type:"error", title:`问卷填写有误`, content: UI.html(errors)})
 
         if(bean.anonymous===false)
             form.user = user.id
