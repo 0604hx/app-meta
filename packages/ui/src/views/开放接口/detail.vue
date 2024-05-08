@@ -90,7 +90,7 @@
     import { Plus, Trash } from "@vicons/fa"
 
     import AuthSelector from "@CC/selector.auth.vue"
-    import MDEditor from "@C/markdown/md.editor.vue"
+    import MDEditor from "@md.editor"
     import CodeEditor from "@C/editor.code.vue"
 
     const tupe = `{{ 变量名 }}`

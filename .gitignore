@@ -34,3 +34,5 @@ packages/**/dist
 meta-cli.json
 
 packages/ui/public/meta-helper.js
+
+packages/docs/.vitepress/cache

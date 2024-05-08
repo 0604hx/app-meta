@@ -135,8 +135,8 @@
     import { Plus, Trash, Cog } from "@vicons/fa"
 
     import CodeEditor from "@C/editor.code.vue"
-    import MDEditor from "@C/markdown/md.editor.vue"
-    import MDRender from "@C/markdown/md.viewer.vue"
+    import MDEditor from "@md.editor"
+    import MDRender from "@md.viewer"
 
     import { pageEditor } from "../"
     import About from "./说明.md?raw"

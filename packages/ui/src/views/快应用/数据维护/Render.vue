@@ -16,7 +16,7 @@
     import { ref, reactive, onMounted } from 'vue'
     import { Database } from "@vicons/fa"
 
-    import MDRender from "@C/markdown/md.viewer.vue"
+    import MDRender from "@md.viewer"
     import DocumentList from "../document-list.vue"
 
     import { runScript } from "@S/Runner"

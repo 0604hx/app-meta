@@ -79,7 +79,7 @@
 <script setup>
     import { ref } from 'vue'
     import { Trash } from '@vicons/fa'
-    import MDEditor from "@C/markdown/md.editor.vue"
+    import MDEditor from "@md.editor"
     import { types, limits } from "./"
 
     const props = defineProps({

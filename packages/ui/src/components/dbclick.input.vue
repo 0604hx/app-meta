@@ -52,6 +52,8 @@
         editing.value = true
     }
     const onSingleClick = e=>{
+        if(editing.value === true)  return
+
         clearTimeout(timer)
         timer = setTimeout(props.onClick, 400)
     }

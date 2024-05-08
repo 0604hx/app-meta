@@ -54,7 +54,7 @@
     import { Trash } from '@vicons/fa'
 
     import CodeEditor from "@C/editor.code.vue"
-    import MDEditor from "@C/markdown/md.editor.vue"
+    import MDEditor from "@md.editor"
 
     let mdEditor = ref()
 

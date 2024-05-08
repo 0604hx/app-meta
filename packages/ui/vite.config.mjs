@@ -6,6 +6,8 @@ import ViteCompress from 'vite-plugin-compression2'
 
 const isProduction = process.env.NODE_ENV === 'production'
 
+const MARKDOWN = 'v3'
+
 const resolve = dir=>join(__dirname, dir)
 const pkg = require("./package.json")
 
@@ -48,7 +50,9 @@ export default defineConfig({
             '@S'            : resolve("src/service"),                       //接口相关
             '@T'            : resolve("src/theme"),                         //主题相关
             '@U'            : resolve("src/util"),                          //通用工具
-            '@F'            : resolve("src/views/快应用")
+            '@F'            : resolve("src/views/快应用"),
+            '@md.viewer'    : resolve(`src/components/markdown/${MARKDOWN}/md.viewer.vue`),
+            '@md.editor'    : resolve(`src/components/markdown/${MARKDOWN}/md.editor.vue`),
         }
     },
     define:{
@@ -57,6 +61,7 @@ export default defineConfig({
         "__VUE_PROD_DEVTOOLS__": false,
         "__VUE_PROD_HYDRATION_MISMATCH_DETAILS__": false,
         "process.env.VUE_APP_CONTEXT": JSON.stringify(BACKEND_CONTEXT),
+        "_MARKDOWN_LIB_": JSON.stringify(MARKDOWN),
         "_APPNAME_": JSON.stringify(pkg.appName),
         "_VERSION_": JSON.stringify(isProduction? VERSION : process.env.NODE_ENV),
         "_CONTEXT_": JSON.stringify(process.env.VUE_APP_CONTEXT||""),

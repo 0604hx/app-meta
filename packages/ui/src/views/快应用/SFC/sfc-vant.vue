@@ -26,7 +26,7 @@
     对常用组件的封装，传递给 SFC，使得实际渲染环境与开发环境引用路径一致
      */
     import Chart from "@C/chart.vue"
-    import MDRender from "@C/markdown/md.viewer.vue"
+    import MDRender from "@md.viewer"
 
     const props = defineProps({
         code:{type:String, default:""},
@@ -50,7 +50,7 @@
                 'vue-router'                : { useRoute, useRouter },
 
                 "@C/chart.vue"              : Chart,
-                "@C/markdown/md.viewer.vue" : MDRender,
+                "@md.viewer"                : MDRender,
             },
             getFile: () => props.code,
             addStyle: (name) => {},

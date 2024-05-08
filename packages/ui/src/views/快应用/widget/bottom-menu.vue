@@ -17,12 +17,16 @@
                     <n-text depth="3">{{page.uid}}</n-text>
                 </n-space>
                 <n-space justify="space-between">
-                    <n-text>最后更新于</n-text>
-                    <n-text depth="3">{{toDate(page.addOn)}}</n-text>
+                    <n-text>创建日期</n-text>
+                    <n-text depth="3"><n-time :time="page.addOn" /></n-text>
+                </n-space>
+                <n-space v-if="page.updateOn" justify="space-between">
+                    <n-text>最后更新</n-text>
+                    <n-text depth="3"> <n-time :time="page.updateOn" /></n-text>
                 </n-space>
 
-                <n-button secondary block @click="copyId">复制编号 ID 到粘贴板</n-button>
-                <n-button secondary block @click="shortUrl">生成短链接（便于分享）</n-button>
+                <n-button type="primary" secondary block @click="copyId">复制编号 ID 到粘贴板</n-button>
+                <n-button type="primary" secondary block @click="shortUrl">生成短链接（便于分享）</n-button>
             </n-space>
         </n-popover>
     </n-element>
@@ -36,7 +40,6 @@
 
     let link    = reactive({checked: false, value: false })
 
-    const toDate = d=>H.date.datetime(d)
     const onShow = show=>{
         if(show == true && !link.checked){
             RESULT("/page/link/check/"+props.page.id, {}, d=>{

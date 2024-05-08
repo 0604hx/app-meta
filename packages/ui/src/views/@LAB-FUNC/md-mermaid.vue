@@ -3,8 +3,8 @@
 </template>
 
 <script setup>
-    import MDRender from "@C/markdown/md.viewer.vue"
-    import MDEditor from "@C/markdown/md.editor.vue"
+    import MDRender from "@md.viewer"
+    import MDEditor from "@md.editor"
 
     const code = `# Markdown 插件
 > 此页面演示 markdown 插件功能

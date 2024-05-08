@@ -18,6 +18,7 @@
 
 名称|说明
 -|-
+[MD-Editor-V3](https://github.com/imzbf/md-editor-v3)|一款专为Vue3设计的Markdown编辑器，配有深色主题
 [pako](http://nodeca.github.io/pako)|文本压缩、还原工具
 [mustache](https://github.com/janl/mustache.js)|JS 模板引擎
 [mammoth](https://github.com/mwilliamson/mammoth.js)|转换 docx 文件到 html

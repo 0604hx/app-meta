@@ -55,7 +55,7 @@
 
     import P from "@Pagination"
     import AuthSelector from "@CC/selector.auth.vue"
-    import MDEditor from "@C/markdown/md.editor.vue"
+    import MDEditor from "@md.editor"
 
     const modes = {notice:"平铺显示", dialog:"弹窗显示"}
 

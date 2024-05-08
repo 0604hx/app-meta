@@ -4,7 +4,6 @@
         <MDEditor ref="editor" height="100%" :code="bean" />
 
         <n-space style="position: fixed; top:5px;right: 10px;">
-            <!-- <Document :pid="id" /> -->
             <n-button type="primary" @click="toSave"> <template #icon><n-icon :component="Check" /></template> 保存文档 </n-button>
         </n-space>
     </div>
@@ -15,8 +14,7 @@
     import { pageEditor } from "../"
     import { Check, Upload } from "@vicons/fa"
 
-    import MDEditor from "@C/markdown/md.editor.vue"
-    // import Document from "../document-manage.vue"
+    import MDEditor from "@md.editor"
 
     let { id, bean, inited, loading , updateContent } = pageEditor()
     let editor = ref()

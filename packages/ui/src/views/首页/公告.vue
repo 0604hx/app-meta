@@ -7,7 +7,7 @@
 <script setup>
     import { ref,onMounted, h } from 'vue'
 
-    import MDRender from "@C/markdown/md.viewer.vue"
+    import MDRender from "@md.viewer"
 
     const props = defineProps({
         clz:{type:String, default:"mb-3"}

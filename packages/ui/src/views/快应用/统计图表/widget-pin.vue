@@ -11,7 +11,7 @@
 <script setup>
     import { ref, watch } from 'vue'
 
-    import MDRender from "@C/markdown/md.viewer.vue"
+    import MDRender from "@md.viewer"
     import { widgetProps, loadData } from "."
 
     const props = defineProps(widgetProps({

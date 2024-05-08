@@ -97,6 +97,10 @@
     const defaultHome = ()=> h(DefaultHome, {app: bean.app})
 
     const refresh = ()=>{
+        //文档页自行刷新
+        if(state.value == 1 && bean.page?.template === 'markdown')
+            return
+
         state.value = -1
 
         RESULT("/page/main", {pid:props.pid, aid:props.aid},  d=>{

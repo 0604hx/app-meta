@@ -19,7 +19,7 @@
     import { ref,reactive, onMounted, nextTick } from 'vue'
     import { useRoute } from 'vue-router'
 
-    import MDRender from "@C/markdown/md.viewer.vue"
+    import MDRender from "@md.viewer"
     import DocumentList from "../document-list.vue"
     import { renderProps } from "../"
 

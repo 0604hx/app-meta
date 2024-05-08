@@ -19,7 +19,9 @@
         "client:watch-win": "pnpm -F client watch:win",
         "cli:package": "pnpm -F cli package",
         "server": "pnpm -F server start",
-        "server:demo": "pnpm -F server demo-server"
+        "server:demo": "pnpm -F server demo-server",
+        "docs:dev": "pnpm -F docs dev",
+        "docs:build": "pnpm -F docs build"
     },
     "keywords": [
         "VUE3",
@@ -29,7 +31,6 @@
     "author": "0604hx <zxingming@foxmail.com>",
     "license": "MIT",
     "devDependencies": {
-        "@rollup/plugin-commonjs": "^25.0.7",
-        "vite": "^5.2.8"
+        "vite": "^5.2.11"
     }
 }

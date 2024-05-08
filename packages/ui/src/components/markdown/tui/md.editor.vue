@@ -14,11 +14,10 @@
 
     import { plugins } from "./md.plugin"
 
-    const props = defineProps({
-        code:{type:String},
-        dark:{type:Boolean, default: window.DARK||false},
-        height:{type:String, default:"auto"}
-    })
+    import { ViewerProps } from '../'
+
+    const props = defineProps(ViewerProps)
+
     let editor = ref(null)
     let editorNode = null
 

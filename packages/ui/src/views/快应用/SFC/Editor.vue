@@ -57,7 +57,7 @@
 
     import About from "./说明.md?raw"
 
-    import MDRender from "@C/markdown/md.viewer.vue"
+    import MDRender from "@md.viewer"
 
     import { translator, getRender, uiVersionText } from "."
 

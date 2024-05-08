@@ -50,7 +50,7 @@
     import { runPage } from "@S/Runner"
     import { templates } from "./"
 
-    import MDRender from "@C/markdown/md.viewer.vue"
+    import MDRender from "@md.viewer"
     import Logo from "@VW/app.logo.vue"
     import Template from "../widget/page.template.vue"
     import PageLink from "../widget/page.link.vue"

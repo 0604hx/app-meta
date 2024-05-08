@@ -110,7 +110,7 @@
     import { ref } from 'vue'
     import { Trash, Plus, QuestionCircle } from '@vicons/fa'
 
-    import MDEditor from "@C/markdown/md.editor.vue"
+    import MDEditor from "@md.editor"
     import FileImportor from "@CC/file.import.vue"
 
     const props = defineProps({

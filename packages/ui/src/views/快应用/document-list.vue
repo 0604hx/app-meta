@@ -5,11 +5,11 @@
             <n-table :bordered="false" size="small" :bottom-bordered="false">
                 <thead>
                     <tr>
-                        <th width="250">文件名</th>
-                        <th width="100">文件大小</th>
-                        <th>备注</th>
-                        <th width="90">上传者</th>
-                        <th width="80">下载次数</th>
+                        <th>文件名</th>
+                        <th width="70">文件大小</th>
+                        <th width="180">备注</th>
+                        <th width="80">上传者</th>
+                        <th width="50">下载</th>
                         <th width="40" class="text-center"></th>
                     </tr>
                 </thead>
@@ -21,7 +21,7 @@
                             </a>
                         </td>
                         <td>{{filesize(item.size)}}</td>
-                        <td><n-ellipsis>{{item.summary}}</n-ellipsis></td>
+                        <td><n-ellipsis style="max-width: 150px">{{item.summary}}</n-ellipsis></td>
                         <td>{{item.uid}}</td>
                         <td>{{item.download}}</td>
                         <td>

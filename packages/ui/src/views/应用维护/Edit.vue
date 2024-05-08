@@ -135,7 +135,7 @@
     import { Check, PlusCircle, Edit, Windows, InfoCircle, QuestionCircle } from '@vicons/fa'
     import pinyin from 'js-pinyin'
 
-    import MDEditor from "@C/markdown/md.editor.vue"
+    import MDEditor from "@md.editor"
     import { categories } from "@S/Common"
 
     const route = useRoute()

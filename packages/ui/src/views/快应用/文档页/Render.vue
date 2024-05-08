@@ -57,7 +57,7 @@
                                 <template #trigger>
                                     <n-text depth="3">-无数据-</n-text>
                                 </template>
-                                文档的标题（H1、H2、H3）会显示在这里
+                                文档的标题（{{ headers.join("、") }}）会显示在这里
                             </n-tooltip>
                         </div>
                 </n-layout-sider>
@@ -71,7 +71,8 @@
 
     import html2pdf from 'html2pdf.js'
 
-    import MDRender from "@C/markdown/md.viewer.vue"
+    import { mdViewerSelector } from "@C/markdown"
+    import MDRender from "@md.viewer"
     import DocumentList from "../document-list.vue"
 
     import { renderProps, loadContent } from "../"
@@ -86,6 +87,7 @@
     const headerHeight      = 50
     const collapsedWidth    = 15
     const indent            = 25
+    const headers           = ["H1", "H2", "H3"]
 
     let title               = ref(props.page.name)
     let code                = ref()
@@ -99,21 +101,22 @@
 
     const changeContent = text=>{
         code.value = text
-        nextTick(()=> buildTOC())
+        nextTick(()=> setTimeout(buildTOC, 500))
     }
 
     const buildTOC = ()=>{
         let _toc    = []
-        let headers = ["H1", "H2", "H3"]
         let counter = 0
-        let items   = document.querySelector(".toastui-editor-contents").children
+        let items   = document.querySelector(mdViewerSelector()).children
         let hashs = location.hash.split("#")
 
         for (const node of items) {
             let level = headers.indexOf(node.tagName)
             if(level>=0){
-                let id = `H${counter++}`
-                node.id = id
+                let id = node.id || `H${counter++}`
+                if(!node.id){
+                    node.id = id
+                }
                 _toc.push({id:`#${id}`, name:node.innerText, level, href:`#${hashs[1]}#${id}`})
             }
         }
