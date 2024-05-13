@@ -31,9 +31,15 @@ export const getConfig = ()=>Object.assign(
             buildWidget({uuid:"mine-page", title:"快捷入口", span:COLS, card:true, com:"M001"}),
             buildWidget({uuid:'app-top', title:"应用排行",com:"M002", span: COLS, card:false}),
             // buildWidget({com:"M003", card:false, params:{text:"抽签小程序", height:60, aid:'SJCQ-BDB', pid:2}}),
-            // buildWidget({ title:`应用总览`, params:{aid:"demo", simple:true, height: 200}, com: "M004", span: 4 }),
+            // buildWidget({ title:`应用总览`, params:{aid:"demo", height: 200}, com: "M004", span: 4 }),
             // buildWidget({uuid:'45', aid:'demo', title:"静夜思", card:true, height: '110px' })
         ]
     },
     H.store.getObj(NAME, {})
 )
+
+export const loadConfig = ()=> H.store.get(NAME, "")
+
+export const saveConfig = text=>{
+    H.store.set(NAME, typeof(text)==='string'? text:JSON.stringify(text) )
+}

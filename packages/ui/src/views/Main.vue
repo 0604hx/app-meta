@@ -24,7 +24,7 @@
 
 <script setup>
     import { ref, h, watch, computed, onMounted, nextTick } from 'vue'
-    import { RouterLink } from "vue-router"
+    import { RouterLink, useRouter } from "vue-router"
     import {
         Home, Cog, Cogs, Wrench, Database, ShieldAlt, Parking,GlobeAsia, Icons, ChartPie, UserShield, AppStore, InfoCircle, Html5, Bullhorn,
         Star, Users, Sitemap, TachometerAlt, Server, IdCard ,Code, UserCircle, Edit, Download, Link
@@ -42,6 +42,8 @@
 
     import { useUISetting } from "@/store/uiSetting"
     const uiSetting = useUISetting()
+
+    const router = useRouter()
 
     const headerHeight = "40px"
     const inverted = computed(()=> uiSetting.darkNav)      //反转头部导航
@@ -126,6 +128,7 @@
         }
 
         items.push({ type:"divider"})
+        items.push({ label:"自助配置首页内容", key:"home-custom", icon: UI.buildIcon2(Cog) })
         items.push({ label:"下载客户端程序", key:"download-client", icon: UI.buildIcon2(Download) })
         items.push({ type:"divider"})
         return items
@@ -134,6 +137,7 @@
     const otherMenuHandlers = {
         'dev-h5'            : ()=> M.dialog({title:`访问本地前端项目`, showIcon:false, content:()=> h(LocalDev), style:{width:"640px"}}),
         'dev-mapping'       : ()=> M.dialog({title:`配置 SERVICE 映射`, showIcon:false, content:()=> h(ServiceMapping), style:{width:"820px"}}),
+        'home-custom'       : ()=> H.openUrl(router.resolve({name:`home-custom`}).href, { center: true }),
         'download-client'   : ()=> M.confirm(
             `下载平台客户端程序包`,
             UI.html(`客户端<b class='primary'>（原生环境）</b>支持执行 <b class='primary'>RPA机器人</b>，在交互上提供更好的用户体验，程序包解压后即可使用<br><br>确定下载吗？`),

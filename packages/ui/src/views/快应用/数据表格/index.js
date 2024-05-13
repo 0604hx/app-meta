@@ -1,5 +1,17 @@
+const DATA = "data"
+
+// 数据源
+export const dataTypes = [
+    { value:DATA, label:"数据模块" },
+    { value:"faas", label:"FaaS函数" },
+    { value:"service", label:"后台服务", disabled: true }
+]
+
 export const tableConfig = ()=>({
     title:      "数据筛选",
+
+    dataType :  DATA,   //默认源为数据模块
+
     pid:        null,   //数据范围
     uid:        true,   //是否允许检索用户ID，如果为非空字符，则显示指定用户
     time:       true,   //是否允许按照时间段检索

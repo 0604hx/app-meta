@@ -14,10 +14,15 @@ import tableMergedCell from '@toast-ui/editor-plugin-table-merged-cell'
  * mermaid 集成（按需增加，增加打包后体积 1MB）
  * 引入后，还需增加到 plugins、pluginsForViewer 数组中
  *
- * 暂不使用，使用图片方式引入即可，大大节约打包时间（提速 40%）
+ * 目前仅支持 $$mermaid 的语法，示例：
+
+    $$mermaid
+    flowchart LR
+        start --> stop
+    $$
  */
-// import pluginMermaid from './plugin.mermaid'
+import pluginMermaid from './plugin.mermaid'
 
-export const plugins = [colorSyntax, tableMergedCell]
+export const plugins = [colorSyntax, tableMergedCell, pluginMermaid]
 
-export const pluginsForViewer = [tableMergedCell]
+export const pluginsForViewer = [tableMergedCell, pluginMermaid]

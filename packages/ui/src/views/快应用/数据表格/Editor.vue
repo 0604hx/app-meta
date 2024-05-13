@@ -1,7 +1,7 @@
 <template>
     <n-form v-if="inited" class="p-3" label-placement="left" label-align="right" label-width="110" :show-feedback="false">
         <n-card size="small">
-            <template #header> <Search class="icon primary" /> 检索设置 </template>
+            <template #header> <Search class="icon primary mr-2" /> 检索设置 </template>
             <n-space vertical>
                 <n-form-item label="标题内容"> <n-input v-model:value="bean.title" /> </n-form-item>
                 <n-form-item label="数据范围/表ID">
@@ -43,7 +43,7 @@
         </n-card>
 
         <n-card size="small" class="mt-2">
-            <template #header> <Columns class="icon primary" /> 字段（表格列）设置 </template>
+            <template #header> <Columns class="icon primary mr-2" /> 字段（表格列）设置 </template>
 
             <n-form-item label="显示默认数据列">
                 <n-switch v-model:value="bean.defaultCol" />
@@ -85,7 +85,7 @@
         </n-card>
 
         <n-card size="small" class="mt-2">
-            <template #header> <Download class="icon primary" /> 数据导出配置 </template>
+            <template #header> <Download class="icon primary mr-2" /> 数据导出配置 </template>
 
             <n-space vertical>
                 <n-form-item label="允许导出">
@@ -110,7 +110,7 @@
         </n-card>
 
         <n-card size="small" class="mt-2">
-            <template #header> <Divide class="icon primary" /> 分页及数据排序 </template>
+            <template #header> <Divide class="icon primary mr-2" /> 分页及数据排序 </template>
             <n-form-item label="倒序排列">
                 <n-switch v-model:value="bean.desc" /> <n-text depth="3" class="ml-3">勾选后，优先显示新插入的数据 </n-text>
             </n-form-item>

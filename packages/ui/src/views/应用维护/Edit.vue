@@ -166,7 +166,7 @@
     }
 
     let createOrLoad = ()=>{
-        if(isNew) return _onInit({id:"", name:"", category:0 })
+        if(isNew) return _onInit({id:"", name:"", category:0, active: false })
 
         RESULT(`/app/detail`, {id}, d=> _onInit(d.data.app, d.data.property) )
     }

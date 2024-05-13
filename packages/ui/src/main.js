@@ -130,6 +130,8 @@ let router = BuildRouter(
             /**数据库在线管理 */
             { path: '/dbm/view/:id', name: 'dbm-view', meta:{}, component: () => import('@V/dbm/管理面板.vue') },
             { path: '/dbm/log/:id', name: 'dbm-log', meta:{}, component: () => import('@V/dbm/操作日志.vue') },
+
+            { path: '/home/custom', name: 'home-custom', meta:{}, component: () => import('@V/首页/自助配置.vue') },
         ],
         blankRoutes
     }

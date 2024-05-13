@@ -31,8 +31,8 @@ export default ()=>({
             // https://github.com/nhn/tui.editor/blob/master/plugins/chart/src/index.ts#L332
 
             // TODO: existe uma chance desse metodo ser chamado mais de uma vez (para cada diagrama).
-            // setTimeout(() => mermaid.init(), 100);
-            import("mermaid").then(m=> m.default.init())
+            setTimeout(() => mermaid.init(), 100)
+            // import("mermaid").then(m=> m.default.init())
 
             return [
                 { type: 'openTag', tagName: 'pre', outerNewLine: true, attributes: { 'class': "mermaid" } },

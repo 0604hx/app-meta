@@ -17,7 +17,7 @@
         RESULT(
             "/page/list",
             {form:{"EQ_template":'form', EQ_aid:props.aid}, fields:['id','name','template']},
-            d=> options.value = d.data.map(v=>({label:v.name, value: `${v.id}`}))
+            d=> options.value = d.data.map(v=>({label:`${v.template.toUpperCase()} | ${v.name}`, value: `${v.id}`}))
         )
     })
 </script>

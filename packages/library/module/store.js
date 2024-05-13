@@ -2,7 +2,7 @@
  * @Author: 集成显卡
  * @Date: 2021-11-30 08:30:23
  * @Last Modified by: 集成显卡
- * @Last Modified time: 2022-09-20 17:50:40
+ * @Last Modified time: 2024-05-13 14:55:29
  *
  * 基于 localStorage 的简单封装
  */
@@ -16,7 +16,7 @@ export const boolean = (k, dv=false)=> {
 
 export const getObj = (k, dv={})=>{
     let item = get(k)
-    return /^{.*}$/.test(item)? JSON.parse(item) : dv
+    return /^{(.|\W)*}$/.test(item)? JSON.parse(item) : dv
 }
 
 export const setObj = (k, v, v2)=>{
